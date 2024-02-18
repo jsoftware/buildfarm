@@ -1,0 +1,25 @@
+1. make a symlink in jni folder
+
+$ cd jni
+$ ln -sf ../../pcre2-master . 
+$ cd ..
+
+2. build using ndk in the current folder
+
+$ ndk-build
+
+for armeabi target, use gcc and older version of ndk
+wget https://dl.google.com/android/repository/android-ndk-r16b-darwin-x86_64.zip
+unzip android-ndk-r16b-darwin-x86_64.zip
+$ NDK_TOOLCHAIN_VERSION=4.9 ~/android-ndk-r16b/ndk-build
+
+debug built
+in Application.mk change to APP_OPTIM=debug
+NO need to change anything in Android.mk
+ 
+$ NDK_TOOLCHAIN_VERSION=4.9 ~/android/android-ndk-r16b/ndk-build NDK_DEBUG=1
+
+binaries in libs folder
+
+3. jconsole readline implemented with linenoise
+   * https://github.com/antirez/linenoise

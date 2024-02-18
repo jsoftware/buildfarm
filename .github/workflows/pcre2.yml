@@ -1,0 +1,518 @@
+name: JPCRE2
+
+on:
+ push:
+  branches: [ master ]
+
+# trigger workflow on file change
+#on:
+# push:
+#  paths:
+#   - 'version.txt'
+
+# if: ${{ false }}
+
+jobs:
+
+# linux ----------------------------------------------------------------
+ jpcre2linux:
+  name: JPCRE2 (Linux)
+  runs-on: ubuntu-20.04
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Setup Environment (Linux)
+     run: script/install-lnx.sh
+
+   - name: Copy Source Files (Linux)
+     run: script/pcre2-copysrc.sh
+
+   - name: Build JPCRE2 (Linux)
+     env:
+      CC: clang
+     run: |
+      script/pcre2-build.sh linux || exit 1
+
+   - name: Compress Files (Linux)
+     run: |
+      ls -l j64
+      zip -r l64.zip j64
+      ls -l j32
+      zip -r l32.zip j32
+
+   - name: Release JPCRE2 (Linux)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "l64.zip,l32.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# macOS ----------------------------------------------------------------
+ jpcre2macos:
+  name: JPCRE2 (macOS)
+  runs-on: macos-12
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+#   - name: Setup Environment (macOS)
+
+   - name: Copy Source Files (Linux)
+     run: script/pcre2-copysrc.sh
+
+   - name: Build JPCRE2 (macOS)
+     env:
+      CC: clang
+     run: |
+      script/pcre2-build.sh darwin || exit 1
+
+   - name: Compress Files (macOS)
+     run: |
+      ls -l j64
+      zip -r m64.zip j64
+
+   - name: Release JPCRE2 (macOS)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "m64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# rpi64 ----------------------------------------------------------------
+ jpcre2rpi64:
+  name: JPCRE2 (Raspberry)
+  runs-on: ubuntu-20.04
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Build JPCRE2 (Raspberry)
+     uses: pguyot/arm-runner-action@v2
+     with:
+      cpu: cortex-a53
+      cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
+      base_image: raspios_lite_arm64:latest
+      image_additional_mb: 1024
+      copy_artifact_path: j64
+      commands: |
+       apt-get install --no-install-recommends -y clang zip
+       export CC=clang
+       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-build.sh raspberry || exit 1
+       ls -l j64
+       zip -r rpi64.zip j64
+       rm -rf j64
+       mkdir j64
+       mv rpi64.zip j64/.
+       find j64 -type d -exec chmod a+rwx {} \;
+       find j64 -type f -exec chmod a+rw {} \;
+
+   - name: Compress Files (Raspberry)
+     run: |
+      ls -l j64
+      mv j64/* .
+
+   - name: Release JPCRE2 (Raspberry)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "rpi64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# rpi32 ----------------------------------------------------------------
+ jpcre2rpi32:
+  name: JPCRE2 (Raspberry32)
+  runs-on: ubuntu-20.04
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Build JPCRE2 (Raspberry 32)
+     uses: pguyot/arm-runner-action@v2
+     with:
+      cpu: arm1176
+      cpu_info: cpuinfo/raspberrypi_zero2_w
+      base_image: raspbian_lite:2020-02-13
+      image_additional_mb: 1024
+      copy_artifact_path: j32
+      commands: |
+       apt-get install --no-install-recommends -y zip
+       export CC=gcc
+       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-build.sh raspberry || exit 1
+       find j32 -type d -exec chmod a+rwx {} \;
+       find j32 -type f -exec chmod a+rw {} \;
+       ls -l j32
+       zip -r rpi32.zip j32
+       rm -rf j32
+       mkdir j32
+       mv rpi32.zip j32/.
+       find j32 -type d -exec chmod a+rwx {} \;
+       find j32 -type f -exec chmod a+rw {} \;
+
+   - name: Compress Files (Raspberry32)
+     run: |
+      ls -l j32
+      mv j32/* .
+
+   - name: Release JPCRE2 (Raspberry32)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "rpi32.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# openbsd --------------------------------------------------------------
+ jpcre2openbsd:
+  name: JPCRE2 (OpenBSD vmactions)
+  if: ${{ false }}
+  runs-on: macos-12
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Build JPCRE2 (OpenBSD)
+     uses: vmactions/openbsd-vm@v0
+     with:
+      usesh: true
+      sync: sshfs
+      prepare: |
+       rdate time.cloudflare.com || true
+       pkg_add curl zip gmake nasm pcre2 libedit
+
+      run: |
+       rm -f jobdone
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       echo "Host *" >>~/.ssh/config || true
+       echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       cat ~/.ssh/config || true
+       export CC=clang
+       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-build.sh openbsd || exit 1
+       ls -l j64
+       zip -r obsd64.zip j64
+       touch jobdone
+
+   - name: Check Status (OpenBSD)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release JPCRE2 (OpenBSD)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "obsd64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# openbsd --------------------------------------------------------------
+ jpcre2openbsd2:
+  name: JPCRE2 (OpenBSD cross-platform-actions)
+  runs-on: macos-12
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Build JPCRE2 (OpenBSD)
+     uses: cross-platform-actions/action@v0.10.0
+     with:
+      operating_system: openbsd
+      architecture: x86-64
+      version: '7.2'
+      shell: bash
+
+      run: |
+       rm -f jobdone
+       sudo rdate time.cloudflare.com || true
+       sudo pkg_add curl zip gmake nasm pcre2 libedit
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       sudo echo "Host *" >>~/.ssh/config || true
+       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       sudo cat ~/.ssh/config || true
+       export CC=clang
+       script/pcre2-build.sh openbsd || exit 1
+       script/pcre2-copysrc.sh || exit 1
+       ls -l j64
+       zip -r obsd64.zip j64
+       touch jobdone
+
+   - name: Check Status (OpenBSD)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release JPCRE2 (OpenBSD)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "obsd64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# openbsd arm64 --------------------------------------------------------
+ jpcre2openbsdarm64:
+  name: JPCRE2 (OpenBSD arm64)
+  runs-on: ubuntu-22.04
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Build, Test JPCRE2 (OpenBSD arm64)
+     uses: cross-platform-actions/action@v0.10.0
+     with:
+      operating_system: openbsd
+      architecture: arm64
+      version: '7.2'
+      shell: bash
+
+      run: |
+       rm -f jobdone
+       sudo rdate time.cloudflare.com || true
+       sudo pkg_add curl zip gmake gmp pcre2 libedit
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       sudo echo "Host *" >>~/.ssh/config || true
+       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       sudo cat ~/.ssh/config || true
+       export CC=clang
+       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-build.sh openbsd || exit 1
+       ls -l j64
+       zip -r obsdarm64.zip j64
+       touch jobdone
+
+   - name: Check Status (OpenBSD arm64)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release JPCRE2 (OpenBSD arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "obsdarm64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# freebsd --------------------------------------------------------------
+ jpcre2freebsd:
+  name: JPCRE2 (FreeBSD vmactions)
+  if: ${{ false }}
+  runs-on: macos-12
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Build JPCRE2 (FreeBSD)
+     uses: vmactions/freebsd-vm@v0
+     with:
+      usesh: true
+      sync: sshfs
+      prepare: |
+       rdate time.cloudflare.com || true
+       pkg install -y curl zip gmake nasm pcre2 libedit
+
+      run: |
+       rm -f jobdone
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       echo "Host *" >>~/.ssh/config || true
+       echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       cat ~/.ssh/config || true
+       export CC=clang
+       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-build.sh freebsd || exit 1
+       ls -l j64
+       zip -r fbsd64.zip j64
+       touch jobdone
+
+   - name: Check Status (FreeBSD)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release JPCRE2 (FreeBSD)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "fbsd64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# freebsd --------------------------------------------------------------
+ jpcre2freebsd2:
+  name: JPCRE2 (FreeBSD cross-platform-actions)
+  runs-on: ubuntu-latest
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Build JPCRE2 (FreeBSD)
+     uses: cross-platform-actions/action@v0.10.0
+     with:
+      operating_system: freebsd
+      architecture: x86-64
+      version: '13.1'
+      shell: bash
+
+      run: |
+       rm -f jobdone
+       export IGNORE_OSVERSION=yes
+       sudo rdate time.cloudflare.com || true
+       sudo pkg install -y curl zip gmake nasm pcre2 libedit
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       sudo echo "Host *" >>~/.ssh/config || true
+       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       sudo cat ~/.ssh/config || true
+       export CC=clang
+       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-build.sh freebsd || exit 1
+       ls -l j64
+       zip -r fbsd64.zip j64
+       touch jobdone
+
+   - name: Check Status (FreeBSD)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release JPCRE2 (FreeBSD)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "fbsd64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# android --------------------------------------------------------------
+ jpcre2android:
+  name: JPCRE2 (android)
+  if: ${{ false }}
+  runs-on: macos-12
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Setup Environment (android)
+     uses: nttld/setup-ndk@v1
+     with:
+      ndk-version: r25c
+      local-cache: false
+
+   - name: Build JPCRE2 (android)
+     env:
+      CC: clang
+     run: |
+      script/pcre2-copysrc.sh || exit 1
+      script/pcre2-build.sh android || exit 1
+
+   - name: Release JPCRE2 (android)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "androidlibs.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# wasm -----------------------------------------------------------------
+ jpcre2wasm:
+  name: JPCRE2 (wasm)
+  if: ${{ false }}
+  runs-on: ubuntu-22.04
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Setup Environment (wasm)
+     uses: mymindstorm/setup-emsdk@v11
+
+   - name: Build JPCRE2 (wasm)
+     env:
+      CC: emcc
+     run: |
+      script/pcre2-copysrc.sh || exit 1
+      script/pcre2-build.sh wasm || exit 1
+      ls -l j32
+      zip -r wasm32.zip j32
+
+   - name: Release JPCRE2 (wasm)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "wasm32.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows --------------------------------------------------------------
+ jpcre2win:
+  name: JPCRE2 (Windows)
+  runs-on: ubuntu-20.04
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Setup Environment (Windows)
+     run: script/install-lnx.sh
+
+   - name: Build JPCRE2 (Windows)
+     env:
+      CC: clang
+     run: |
+      script/pcre2-copysrc.sh || exit 1
+      script/pcre2-build.sh win || exit 1
+
+   - name: Compress Files (Windows)
+     run: |
+      ls -l j64
+      zip -r w64.zip j64
+
+   - name: Release JPCRE2 (Windows)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "w64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+ webhook:
+  name: Run Webhook
+  runs-on: ubuntu-22.04
+  needs: [jpcre2linux, jpcre2macos, jpcre2rpi64, jpcre2rpi32, jpcre2win, jpcre2freebsd2, jpcre2openbsd2]
+  steps:
+   - name: update server
+     uses: distributhor/workflow-webhook@v2
+     env:
+      webhook_url: ${{ secrets.WEBHOOK_URL }}
+      webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+      data: '{ "id": "jpcre2build" }'

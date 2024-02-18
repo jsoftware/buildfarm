@@ -50,3 +50,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+master.tar.gz
+pcre2-master
+pcre2-master/
