@@ -69,12 +69,10 @@ exit 0
 fi
 
 if [ "$1" = "wasm" ]; then
-cd lib
-USE_WASM=1 CC=emcc AR=emar ./pcre2-makewasm.sh
-cp bin/$1/j32/* j32
+script/pcre2-makewasm.sh
+cp pcre2-master/.libs/*wasm j32
 find j32 -type d -exec chmod 755 {} \;
 find j32 -type f -exec chmod 644 {} \;
-ls -l j32
 exit 0
 fi
 
