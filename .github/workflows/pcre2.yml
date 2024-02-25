@@ -38,8 +38,6 @@ jobs:
      run: |
       ls -l j64
       zip -r l64.zip j64
-      ls -l j32
-      zip -r l32.zip j32
 
    - name: Release JPCRE2 (Linux)
      uses: ncipollo/release-action@v1
@@ -100,7 +98,7 @@ jobs:
       image_additional_mb: 1024
       copy_artifact_path: j64
       commands: |
-       apt-get install --no-install-recommends -y clang zip
+       apt-get install --no-install-recommends -y clang zip autoconf automake libtool
        export CC=clang
        script/pcre2-copysrc.sh || exit 1
        script/pcre2-build.sh raspberry || exit 1
@@ -143,7 +141,7 @@ jobs:
       image_additional_mb: 1024
       copy_artifact_path: j32
       commands: |
-       apt-get install --no-install-recommends -y zip
+       apt-get install --no-install-recommends -y zip autoconf automake libtool
        export CC=gcc
        script/pcre2-copysrc.sh || exit 1
        script/pcre2-build.sh raspberry || exit 1
