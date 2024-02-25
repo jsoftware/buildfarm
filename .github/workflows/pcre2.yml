@@ -65,6 +65,7 @@ jobs:
      env:
       CC: clang
      run: |
+      brew install autoconf
       script/pcre2-build.sh darwin || exit 1
 
    - name: Compress Files (macOS)
