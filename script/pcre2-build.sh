@@ -70,7 +70,7 @@ fi
 
 if [ "$1" = "wasm" ]; then
 script/pcre2-makewasm.sh
-cp pcre2-master/.libs/*wasm j32
+cp pcre2-master/.libs/libpcre2-8.a j32
 find j32 -type d -exec chmod 755 {} \;
 find j32 -type f -exec chmod 644 {} \;
 exit 0
