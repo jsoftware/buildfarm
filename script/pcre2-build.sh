@@ -10,7 +10,6 @@ CC=${CC-clang}
 export CC
 
 mkdir -p $HOME/temp
-mkdir -p $HOME/vm/d
 
 if [ "$1" = "linux" ]; then
   ext="so"
@@ -79,7 +78,6 @@ fi
 if [ "$1" = "wasm" ]; then
 cd lib
 USE_WASM=1 CC=emcc AR=emar ./pcre2-makewasm.sh
-cd ..
 cp bin/$1/j32/* j32
 find j32 -type d -exec chmod 755 {} \;
 find j32 -type f -exec chmod 644 {} \;
@@ -88,38 +86,30 @@ exit 0
 fi
 
 if [ "$1" = "win" ]; then
-cd lib/c
-./pcre2-makewin.sh
-cd ../cpp
-./pcre2-makewin.sh
-cd ../..
-cp pcre2-master/.libs/libjsqlite3.dll j64
+script/pcre2-makewin.sh
+cp pcre2-master/.libs/libjpcre2.dll j64
 ls -l j64
 exit 0
 fi
 
-cd lib
+if [ $m64 -eq 1 ]; then
+if [ "$1" = "darwin" ]; then
+script/pcre2-makeosx.sh
+else
+script/pcre2-makelx.sh
+fi
+else
+script/pcre2-makelx.sh
+fi
 
 if [ $m64 -eq 1 ]; then
 if [ "$1" = "darwin" ]; then
-./pcre2-makeosx.sh
+cp pcre2-master/.libs/libjpcre2.dylib j64
 else
-./pcre2-makelx.sh
+cp pcre2-master/.libs/libjpcre2.so j64
 fi
 else
-./pcre2-makelx.sh
-fi
-
-cd ..
-
-if [ $m64 -eq 1 ]; then
-if [ "$1" = "darwin" ]; then
-cp pcre2-master/.libs/libjsqlite3.dylib j64
-else
-cp pcre2-master/.libs/libjsqlite3.so j64
-fi
-else
-cp pcre2-master/.libs/libjsqlite3.so j32
+cp pcre2-master/.libs/libjpcre2.so j32
 fi
 
 if [ -d j64 ]; then
