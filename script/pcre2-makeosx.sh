@@ -31,7 +31,7 @@ cp .libs/libpcre2-8.0.dylib libpcre2-8.0-x86_64.dylib
 
 rm -f src/*.o .libs/*.o
 
-CC=clang arch -arm64 ./configure \
+CC=clang ./configure \
  --enable-pcre2-8 \
  --disable-pcre2-16 \
  --disable-pcre2-32 \

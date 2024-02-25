@@ -106,7 +106,7 @@ fi
 
 if [ $m64 -eq 1 ]; then
 if [ "$1" = "darwin" ]; then
-cp pcre2-master/.libs/libpcre2-8.dylib j64
+cp pcre2-master/.libs/libpcre2-8.0.dylib j64
 else
 cp pcre2-master/.libs/libpcre2-8.so j64
 fi
