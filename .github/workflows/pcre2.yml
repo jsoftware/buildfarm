@@ -56,7 +56,9 @@ jobs:
    - name: Checkout Git repository
      uses: actions/checkout@v3
 
-#   - name: Setup Environment (macOS)
+   - name: Setup Environment (macOS)
+     run: |
+      brew install automake
 
    - name: Copy Source Files (Linux)
      run: script/pcre2-copysrc.sh
@@ -65,7 +67,6 @@ jobs:
      env:
       CC: clang
      run: |
-      brew install automake
       script/pcre2-build.sh darwin || exit 1
 
    - name: Compress Files (macOS)
@@ -429,6 +430,7 @@ jobs:
      env:
       CC: clang
      run: |
+      brew install automake
       script/pcre2-copysrc.sh || exit 1
       script/pcre2-build.sh android || exit 1
 

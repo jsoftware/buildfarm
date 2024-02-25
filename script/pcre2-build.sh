@@ -64,7 +64,9 @@ fi
 echo "MAKEFLAGS=$MAKEFLAGS"
 
 if [ "$1" = "android" ]; then
-cp script/pcre2-Android.mk pcre2-master/Android.mk
+
+
+cp pcre2-android/Android.mk pcre2-master/Android.mk
 cd pcre2-android/jni
 ln -sf ../../pcre2-master .
 cd ..

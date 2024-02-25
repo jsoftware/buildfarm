@@ -24,16 +24,15 @@ CC=clang ./configure \
  --enable-bsr-anycrlf \
  --enable-newline-is-anycrlf \
 
-cp ../script/Android.mk .
 cd $P 
-cp Android.mk $S/.
-cd ../android/jni
+cd ..
+cp pcre2-android/Android.mk $S/.
+cd pcre2-android/jni
 ln -sf ../../pcre2-master .
 cd ..
 ndk-build
 
 ls -l libs
-
 
 
 
