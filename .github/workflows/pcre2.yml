@@ -26,7 +26,7 @@ jobs:
      run: script/install-lnx.sh
 
    - name: Copy Source Files (Linux)
-     run: script/pcre2-copysrc.sh
+     run: script/pcre2-copysrc.sh linux
 
    - name: Build JPCRE2 (Linux)
      env:
@@ -61,7 +61,7 @@ jobs:
       brew install automake
 
    - name: Copy Source Files (Linux)
-     run: script/pcre2-copysrc.sh
+     run: script/pcre2-copysrc.sh darwin
 
    - name: Build JPCRE2 (macOS)
      env:
@@ -102,7 +102,7 @@ jobs:
       commands: |
        apt-get install --no-install-recommends -y clang zip autoconf automake libtool
        export CC=clang
-       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-copysrc.sh raspberry || exit 1
        script/pcre2-build.sh raspberry || exit 1
        ls -l j64
        zip -r pcre2-rpi64.zip j64
@@ -145,7 +145,7 @@ jobs:
       commands: |
        apt-get install --no-install-recommends -y zip autoconf automake libtool
        export CC=gcc
-       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-copysrc.sh raspberry || exit 1
        script/pcre2-build.sh raspberry || exit 1
        find j32 -type d -exec chmod a+rwx {} \;
        find j32 -type f -exec chmod a+rw {} \;
@@ -200,7 +200,7 @@ jobs:
        echo "client ssh config"
        cat ~/.ssh/config || true
        export CC=clang
-       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-copysrc.sh openbsd || exit 1
        script/pcre2-build.sh openbsd || exit 1
        ls -l j64
        zip -r pcre2-obsd64.zip j64
@@ -248,7 +248,7 @@ jobs:
        echo "client ssh config"
        sudo cat ~/.ssh/config || true
        export CC=clang
-       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-copysrc.sh openbsd || exit 1
        script/pcre2-build.sh openbsd || exit 1
        ls -l j64
        zip -r pcre2-obsd64.zip j64
@@ -296,7 +296,7 @@ jobs:
        echo "client ssh config"
        sudo cat ~/.ssh/config || true
        export CC=clang
-       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-copysrc.sh openbsd || exit 1
        script/pcre2-build.sh openbsd || exit 1
        ls -l j64
        zip -r pcre2-obsdarm64.zip j64
@@ -344,7 +344,7 @@ jobs:
        echo "client ssh config"
        cat ~/.ssh/config || true
        export CC=clang
-       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-copysrc.sh freebsd || exit 1
        script/pcre2-build.sh freebsd || exit 1
        ls -l j64
        zip -r pcre2-fbsd64.zip j64
@@ -393,7 +393,7 @@ jobs:
        echo "client ssh config"
        sudo cat ~/.ssh/config || true
        export CC=clang
-       script/pcre2-copysrc.sh || exit 1
+       script/pcre2-copysrc.sh freebsd || exit 1
        script/pcre2-build.sh freebsd || exit 1
        ls -l j64
        zip -r pcre2-fbsd64.zip j64
@@ -431,7 +431,7 @@ jobs:
       CC: clang
      run: |
       brew install automake
-      script/pcre2-copysrc.sh || exit 1
+      script/pcre2-copysrc.sh android || exit 1
       script/pcre2-build.sh android || exit 1
 
    - name: Release JPCRE2 (android)
@@ -459,7 +459,7 @@ jobs:
      env:
       CC: emcc
      run: |
-      script/pcre2-copysrc.sh || exit 1
+      script/pcre2-copysrc.sh wasm || exit 1
       script/pcre2-build.sh wasm || exit 1
       ls -l j32
       zip -r pcre2-wasm32.zip j32
@@ -489,7 +489,7 @@ jobs:
      env:
       CC: clang
      run: |
-      script/pcre2-copysrc.sh || exit 1
+      script/pcre2-copysrc.sh win || exit 1
       script/pcre2-build.sh win || exit 1
 
    - name: Compress Files (Windows)
