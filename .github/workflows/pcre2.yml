@@ -37,13 +37,13 @@ jobs:
    - name: Compress Files (Linux)
      run: |
       ls -l j64
-      zip -r l64.zip j64
+      zip -r pcre2-l64.zip j64
 
    - name: Release JPCRE2 (Linux)
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "l64.zip,l32.zip"
+      artifacts: "pcre2-l64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -72,13 +72,13 @@ jobs:
    - name: Compress Files (macOS)
      run: |
       ls -l j64
-      zip -r m64.zip j64
+      zip -r pcre2-m64.zip j64
 
    - name: Release JPCRE2 (macOS)
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "m64.zip"
+      artifacts: "pcre2-m64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -105,10 +105,10 @@ jobs:
        script/pcre2-copysrc.sh || exit 1
        script/pcre2-build.sh raspberry || exit 1
        ls -l j64
-       zip -r rpi64.zip j64
+       zip -r pcre2-rpi64.zip j64
        rm -rf j64
        mkdir j64
-       mv rpi64.zip j64/.
+       mv pcre2-rpi64.zip j64/.
        find j64 -type d -exec chmod a+rwx {} \;
        find j64 -type f -exec chmod a+rw {} \;
 
@@ -121,7 +121,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "rpi64.zip"
+      artifacts: "pcre2-rpi64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -150,10 +150,10 @@ jobs:
        find j32 -type d -exec chmod a+rwx {} \;
        find j32 -type f -exec chmod a+rw {} \;
        ls -l j32
-       zip -r rpi32.zip j32
+       zip -r pcre2-rpi32.zip j32
        rm -rf j32
        mkdir j32
-       mv rpi32.zip j32/.
+       mv pcre2-rpi32.zip j32/.
        find j32 -type d -exec chmod a+rwx {} \;
        find j32 -type f -exec chmod a+rw {} \;
 
@@ -166,7 +166,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "rpi32.zip"
+      artifacts: "pcre2-rpi32.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -203,7 +203,7 @@ jobs:
        script/pcre2-copysrc.sh || exit 1
        script/pcre2-build.sh openbsd || exit 1
        ls -l j64
-       zip -r obsd64.zip j64
+       zip -r pcre2-obsd64.zip j64
        touch jobdone
 
    - name: Check Status (OpenBSD)
@@ -214,7 +214,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "obsd64.zip"
+      artifacts: "pcre2-obsd64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -251,7 +251,7 @@ jobs:
        script/pcre2-copysrc.sh || exit 1
        script/pcre2-build.sh openbsd || exit 1
        ls -l j64
-       zip -r obsd64.zip j64
+       zip -r pcre2-obsd64.zip j64
        touch jobdone
 
    - name: Check Status (OpenBSD)
@@ -262,7 +262,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "obsd64.zip"
+      artifacts: "pcre2-obsd64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -299,7 +299,7 @@ jobs:
        script/pcre2-copysrc.sh || exit 1
        script/pcre2-build.sh openbsd || exit 1
        ls -l j64
-       zip -r obsdarm64.zip j64
+       zip -r pcre2-obsdarm64.zip j64
        touch jobdone
 
    - name: Check Status (OpenBSD arm64)
@@ -310,7 +310,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "obsdarm64.zip"
+      artifacts: "pcre2-obsdarm64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -347,7 +347,7 @@ jobs:
        script/pcre2-copysrc.sh || exit 1
        script/pcre2-build.sh freebsd || exit 1
        ls -l j64
-       zip -r fbsd64.zip j64
+       zip -r pcre2-fbsd64.zip j64
        touch jobdone
 
    - name: Check Status (FreeBSD)
@@ -358,7 +358,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "fbsd64.zip"
+      artifacts: "pcre2-fbsd64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -396,7 +396,7 @@ jobs:
        script/pcre2-copysrc.sh || exit 1
        script/pcre2-build.sh freebsd || exit 1
        ls -l j64
-       zip -r fbsd64.zip j64
+       zip -r pcre2-fbsd64.zip j64
        touch jobdone
 
    - name: Check Status (FreeBSD)
@@ -407,7 +407,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "fbsd64.zip"
+      artifacts: "pcre2-fbsd64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -438,7 +438,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "androidlibs.zip"
+      artifacts: "pcre2-androidlibs.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -462,13 +462,13 @@ jobs:
       script/pcre2-copysrc.sh || exit 1
       script/pcre2-build.sh wasm || exit 1
       ls -l j32
-      zip -r wasm32.zip j32
+      zip -r pcre2-wasm32.zip j32
 
    - name: Release JPCRE2 (wasm)
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "wasm32.zip"
+      artifacts: "pcre2-wasm32.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -495,13 +495,13 @@ jobs:
    - name: Compress Files (Windows)
      run: |
       ls -l j64
-      zip -r w64.zip j64
+      zip -r pcre2-w64.zip j64
 
    - name: Release JPCRE2 (Windows)
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "w64.zip"
+      artifacts: "pcre2-w64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
