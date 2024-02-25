@@ -31,8 +31,8 @@ cp .libs/libpcre2-8.0.dylib libpcre2-8.0-x86_64.dylib
 
 rm -f src/*.o .libs/*.o
 
-sed -i "" -e "s/CPPFLAGS= $/CPPFLAGS= -arch arm64/" Makefile
-sed -i "" -e "s/LDFLAGS= $/LDFLAGS= -arch arm64/" Makefile
+sed -i "" -e "s/^CPPFLAGS = $/CPPFLAGS = -arch arm64/" Makefile
+sed -i "" -e "s/^LDFLAGS = $/LDFLAGS = -arch arm64/" Makefile
 
 make -f Makefile clean
 make -f Makefile
