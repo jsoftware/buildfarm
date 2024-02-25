@@ -15,7 +15,7 @@ rm -f src/*.o .libs/*.o
 
 ./autogen.sh
 
-CC=clang ./configure \
+./configure \
  --enable-pcre2-8 \
  --disable-pcre2-16 \
  --disable-pcre2-32 \
