@@ -200,7 +200,9 @@ jobs:
        echo "client ssh config"
        cat ~/.ssh/config || true
        export CC=clang
-       export AUTOMAKE_VERSION=1.15
+       automake --version
+       autoconf --version
+       export AUTOMAKE_VERSION=1.16
        export AUTOCONF_VERSION=2.71
        script/pcre2-copysrc.sh openbsd || exit 1
        script/pcre2-build.sh openbsd || exit 1
@@ -250,7 +252,9 @@ jobs:
        echo "client ssh config"
        sudo cat ~/.ssh/config || true
        export CC=clang
-       export AUTOMAKE_VERSION=1.15
+       automake --version
+       autoconf --version
+       export AUTOMAKE_VERSION=1.16
        export AUTOCONF_VERSION=2.71
        script/pcre2-copysrc.sh openbsd || exit 1
        script/pcre2-build.sh openbsd || exit 1
@@ -300,7 +304,9 @@ jobs:
        echo "client ssh config"
        sudo cat ~/.ssh/config || true
        export CC=clang
-       export AUTOMAKE_VERSION=1.15
+       automake --version
+       autoconf --version
+       export AUTOMAKE_VERSION=1.16
        export AUTOCONF_VERSION=2.71
        script/pcre2-copysrc.sh openbsd || exit 1
        script/pcre2-build.sh openbsd || exit 1
