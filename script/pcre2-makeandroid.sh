@@ -13,8 +13,10 @@ S=../pcre2-master
 cd $S
 rm -f src/*.o .libs/*.o
 
-ln -s src/pcre2_chartables.c.dist src/pcre2_chartables.c
-ls -l src/pcre2_chartables*
+cd src
+ln -s pcre2_chartables.c.dist pcre2_chartables.c
+ls -l pcre2_chartables*
+cd ..
 
 ./autogen.sh
 
@@ -34,6 +36,9 @@ cp pcre2-android/Android.mk pcre2-master/.
 cd pcre2-android/jni
 ln -sf ../../pcre2-master .
 cd ..
+
+ls -l jni/pcre2-master/src/pcre2_chartables*
+
 ndk-build
 
 ls -l libs
