@@ -13,6 +13,9 @@ S=../pcre2-master
 cd $S
 rm -f src/*.o .libs/*.o
 
+ln -s src/pcre2_chartables.c.dist src/pcre2_chartables.c
+ls -l src/pcre2_chartables*
+
 ./autogen.sh
 
 CC=clang ./configure \
@@ -24,8 +27,6 @@ CC=clang ./configure \
  --enable-bsr-anycrlf \
  --enable-newline-is-anycrlf \
 
-ln -s src/pcre2_chartables.c.dist src/pcre2_chartables.c
-ls -l src/pcre2_chartables*
 
 cd $P 
 cd ..
