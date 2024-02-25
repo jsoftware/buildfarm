@@ -25,7 +25,6 @@ CC=clang ./configure \
  --enable-newline-is-anycrlf \
 
 
-ln -sf src/pcre2_chartables.c.dist src/pcre2_chartables.c
 cd $P 
 cd ..
 cp pcre2-android/Android.mk $S/.
@@ -35,6 +34,10 @@ cd ..
 ndk-build
 
 ls -l libs
+
+zip -r ../pcre2-androidlibs.zip libs
+
+
 
 
 

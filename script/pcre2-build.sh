@@ -64,16 +64,7 @@ fi
 echo "MAKEFLAGS=$MAKEFLAGS"
 
 if [ "$1" = "android" ]; then
-
-
-cp pcre2-android/Android.mk pcre2-master/Android.mk
-cd pcre2-android/jni
-ln -sf ../../pcre2-master .
-cd ..
-# build binary for armeabi-v7a x86 x86_64 arm64-v8a
-ndk-build
-zip -r ../pcre2-androidlibs.zip libs
-cd ..
+script/pcre2-makeandroid.sh
 exit 0
 fi
 
