@@ -414,7 +414,6 @@ jobs:
 # android --------------------------------------------------------------
  jpcre2android:
   name: JPCRE2 (android)
-  if: ${{ false }}
   runs-on: macos-12
   steps:
    - name: Checkout Git repository
