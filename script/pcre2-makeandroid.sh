@@ -27,7 +27,7 @@ CC=clang ./configure \
 
 cd $P 
 cd ..
-cp pcre2-android/Android.mk $S/.
+cp pcre2-android/Android.mk pcre2-master/.
 cd pcre2-android/jni
 ln -sf ../../pcre2-master .
 cd ..
@@ -36,8 +36,4 @@ ndk-build
 ls -l libs
 
 zip -r ../pcre2-androidlibs.zip libs
-
-
-
-
 
