@@ -247,8 +247,8 @@ jobs:
        echo "client ssh config"
        sudo cat ~/.ssh/config || true
        export CC=clang
-       script/pcre2-build.sh openbsd || exit 1
        script/pcre2-copysrc.sh || exit 1
+       script/pcre2-build.sh openbsd || exit 1
        ls -l j64
        zip -r obsd64.zip j64
        touch jobdone

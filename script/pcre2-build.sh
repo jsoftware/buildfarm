@@ -96,8 +96,8 @@ if [ $m64 -eq 1 ]; then
 if [ "$1" = "darwin" ]; then
 script/pcre2-makeosx.sh
 else
-pwd
 ls -l 
+ls -l script
 script/pcre2-makelx.sh
 fi
 else
