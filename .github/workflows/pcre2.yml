@@ -65,7 +65,7 @@ jobs:
      env:
       CC: clang
      run: |
-      brew install libtool
+      brew install automake
       script/pcre2-build.sh darwin || exit 1
 
    - name: Compress Files (macOS)
