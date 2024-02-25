@@ -24,6 +24,7 @@ CC=clang ./configure \
  --enable-bsr-anycrlf \
  --enable-newline-is-anycrlf \
 
+ln -sf src/pcre2_chartables.c.dist src/pcre2_chartables.c
 
 cd $P 
 cd ..
