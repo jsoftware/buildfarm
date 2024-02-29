@@ -201,8 +201,8 @@ jobs:
        cat ~/.ssh/config || true
        export CC=clang
        ls -l /usr/local/bin/auto*
-       export AUTOMAKE_VERSION=1.16
-       export AUTOCONF_VERSION=2.71
+       export AUTOMAKE_VERSION=1.15
+       export AUTOCONF_VERSION=2.69
        script/pcre2-copysrc.sh openbsd || exit 1
        script/pcre2-build.sh openbsd || exit 1
        ls -l j64
@@ -252,8 +252,8 @@ jobs:
        sudo cat ~/.ssh/config || true
        export CC=clang
        ls -l /usr/local/bin/auto*
-       export AUTOMAKE_VERSION=1.16
-       export AUTOCONF_VERSION=2.71
+       export AUTOMAKE_VERSION=1.15
+       export AUTOCONF_VERSION=2.69
        script/pcre2-copysrc.sh openbsd || exit 1
        script/pcre2-build.sh openbsd || exit 1
        ls -l j64
@@ -303,8 +303,8 @@ jobs:
        sudo cat ~/.ssh/config || true
        export CC=clang
        ls -l /usr/local/bin/auto*
-       export AUTOMAKE_VERSION=1.16
-       export AUTOCONF_VERSION=2.71
+       export AUTOMAKE_VERSION=1.15
+       export AUTOCONF_VERSION=2.69
        script/pcre2-copysrc.sh openbsd || exit 1
        script/pcre2-build.sh openbsd || exit 1
        ls -l j64
