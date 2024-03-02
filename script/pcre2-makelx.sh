@@ -49,4 +49,4 @@ ls -l .libs
 mv .libs .libs-32
 mv .libs-64 .libs
 
-endif
+fi
