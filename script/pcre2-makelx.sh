@@ -31,7 +31,6 @@ ls -l .libs
 if [ "$1" = "linux" ]; then
 mv .libs .libs-64
 make -f Makefile clean
-make -f Makefile
 
 ./configure \
  CC="clang -m32" CXX="clang++ -m32" \
