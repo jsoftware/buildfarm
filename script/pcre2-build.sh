@@ -103,6 +103,10 @@ if [ "$1" = "darwin" ]; then
 cp pcre2-master/.libs/libpcre2-8.dylib j64
 elif [ "$1" = "openbsd" ]; then
 cp pcre2-master/.libs/libpcre2-8.so.* j64
+elif [ "$1" = "linux" ]; then
+cp pcre2-master/.libs/libpcre2-8.so.* j64
+mkdir -p j32
+cp pcre2-master/.libs-32/libpcre2-8.so.* j32
 else
 cp pcre2-master/.libs/libpcre2-8.so j64
 fi

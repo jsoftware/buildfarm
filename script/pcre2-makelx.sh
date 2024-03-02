@@ -27,3 +27,26 @@ rm -f src/*.o .libs/*.o
 make -f Makefile clean
 make -f Makefile
 ls -l .libs
+
+if [ "$1" = "linux" ]; then
+mv .libs .libs-64
+make -f Makefile clean
+make -f Makefile
+
+./configure \
+ CC="clang -m32" CXX="clang++ -m32" \
+ --enable-pcre2-8 \
+ --disable-pcre2-16 \
+ --disable-pcre2-32 \
+ --disable-debug \
+ --disable-jit \
+ --enable-bsr-anycrlf \
+ --enable-newline-is-anycrlf \
+
+make -f Makefile clean
+make -f Makefile
+ls -l .libs
+mv .libs .libs-32
+mv .libs-64 .libs
+
+endif
