@@ -423,6 +423,55 @@ jobs:
       allowUpdates: true
       replacesArtifacts: true
 
+# freebsdarm64  --------------------------------------------------------
+ jpcre2freebsdarm64:
+  name: JPCRE2 (FreeBSD arm64)
+  runs-on: ubuntu-latest
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v3
+
+   - name: Build JPCRE2 (FreeBSD arm64)
+     uses: cross-platform-actions/action@v0.10.0
+     with:
+      operating_system: freebsd
+      architecture: arm64
+      version: '13.1'
+      shell: bash
+
+      run: |
+       rm -f jobdone
+       export IGNORE_OSVERSION=yes
+       sudo rdate time.cloudflare.com || true
+       sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       sudo echo "Host *" >>~/.ssh/config || true
+       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       sudo cat ~/.ssh/config || true
+       export CC=clang
+       script/pcre2-copysrc.sh freebsd || exit 1
+       script/pcre2-build.sh freebsd || exit 1
+       ls -l j64
+       zip -r pcre2-fbsdarm64.zip j64
+       touch jobdone
+
+   - name: Check Status (FreeBSD arm64)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release JPCRE2 (FreeBSD arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "pcre2-fbsdarm64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
 # android --------------------------------------------------------------
  jpcre2android:
   name: JPCRE2 (android)
@@ -519,7 +568,7 @@ jobs:
  webhook:
   name: Run Webhook
   runs-on: ubuntu-22.04
-  needs: [jpcre2linux, jpcre2macos, jpcre2rpi64, jpcre2rpi32, jpcre2win, jpcre2freebsd2, jpcre2openbsd2]
+  needs: [jpcre2linux, jpcre2macos, jpcre2rpi64, jpcre2rpi32, jpcre2win, jpcre2freebsd2, jpcre2freebsdarm64, jpcre2openbsd2, jpcre2openbsdarm64]
   steps:
    - name: update server
      uses: distributhor/workflow-webhook@v2
