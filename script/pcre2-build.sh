@@ -91,11 +91,11 @@ cd script
 whoami
 chmod 777 ./pcre2-makelx.sh
 ls -l
-./pcre2-makelx.sh
+./pcre2-makelx.sh "$1"
 cd ..
 fi
 else
-script/pcre2-makelx.sh
+script/pcre2-makelx.sh "$1"
 fi
 
 if [ $m64 -eq 1 ]; then
