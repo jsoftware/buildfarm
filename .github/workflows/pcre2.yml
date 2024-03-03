@@ -20,7 +20,7 @@ jobs:
   runs-on: ubuntu-20.04
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Setup Environment (Linux)
      run: script/install-lnx.sh
@@ -56,7 +56,7 @@ jobs:
   runs-on: macos-12
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Setup Environment (macOS)
      run: |
@@ -91,7 +91,7 @@ jobs:
   runs-on: ubuntu-20.04
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Build JPCRE2 (Raspberry)
      uses: pguyot/arm-runner-action@v2
@@ -134,7 +134,7 @@ jobs:
   runs-on: ubuntu-20.04
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Build JPCRE2 (Raspberry 32)
      uses: pguyot/arm-runner-action@v2
@@ -180,7 +180,7 @@ jobs:
   runs-on: macos-12
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Build JPCRE2 (OpenBSD)
      uses: vmactions/openbsd-vm@v0
@@ -230,14 +230,14 @@ jobs:
   runs-on: macos-12
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Build JPCRE2 (OpenBSD)
-     uses: cross-platform-actions/action@v0.10.0
+     uses: cross-platform-actions/action@v0.23.0
      with:
       operating_system: openbsd
       architecture: x86-64
-      version: '7.2'
+      version: '7.4'
       shell: bash
 
       run: |
@@ -281,14 +281,14 @@ jobs:
   runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Build, Test JPCRE2 (OpenBSD arm64)
-     uses: cross-platform-actions/action@v0.10.0
+     uses: cross-platform-actions/action@v0.23.0
      with:
       operating_system: openbsd
       architecture: arm64
-      version: '7.2'
+      version: '7.4'
       shell: bash
 
       run: |
@@ -333,7 +333,7 @@ jobs:
   runs-on: macos-12
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Build JPCRE2 (FreeBSD)
      uses: vmactions/freebsd-vm@v0
@@ -380,14 +380,14 @@ jobs:
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Build JPCRE2 (FreeBSD)
-     uses: cross-platform-actions/action@v0.10.0
+     uses: cross-platform-actions/action@v0.23.0
      with:
       operating_system: freebsd
       architecture: x86-64
-      version: '13.1'
+      version: '14.0'
       shell: bash
 
       run: |
@@ -429,14 +429,14 @@ jobs:
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Build JPCRE2 (FreeBSD arm64)
-     uses: cross-platform-actions/action@v0.10.0
+     uses: cross-platform-actions/action@v0.23.0
      with:
       operating_system: freebsd
       architecture: arm64
-      version: '13.1'
+      version: '14.0'
       shell: bash
 
       run: |
@@ -478,7 +478,7 @@ jobs:
   runs-on: macos-12
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Setup Environment (android)
      uses: nttld/setup-ndk@v1
@@ -509,7 +509,7 @@ jobs:
   runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Setup Environment (wasm)
      uses: mymindstorm/setup-emsdk@v11
@@ -539,7 +539,7 @@ jobs:
   runs-on: ubuntu-20.04
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Setup Environment (Windows)
      run: script/install-lnx.sh
