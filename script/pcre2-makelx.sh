@@ -33,7 +33,7 @@ mv .libs .libs-64
 make -f Makefile clean
 
 ./configure \
- CC="clang -m32" CXX="clang++ -m32" \
+ CC="gcc -m32" CXX="g++ -m32" \
  --enable-pcre2-8 \
  --disable-pcre2-16 \
  --disable-pcre2-32 \
