@@ -237,7 +237,7 @@ jobs:
      with:
       operating_system: openbsd
       architecture: x86-64
-      version: '7.4'
+      version: '7.2'
       shell: bash
 
       run: |
@@ -288,7 +288,7 @@ jobs:
      with:
       operating_system: openbsd
       architecture: arm64
-      version: '7.4'
+      version: '7.2'
       shell: bash
 
       run: |
@@ -387,7 +387,7 @@ jobs:
      with:
       operating_system: freebsd
       architecture: x86-64
-      version: '14.0'
+      version: '13.2'
       shell: bash
 
       run: |
@@ -436,7 +436,7 @@ jobs:
      with:
       operating_system: freebsd
       architecture: arm64
-      version: '14.0'
+      version: '13.2'
       shell: bash
 
       run: |
