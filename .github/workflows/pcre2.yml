@@ -188,6 +188,7 @@ jobs:
       usesh: true
       sync: sshfs
       prepare: |
+       pkg_add -u
        rdate time.cloudflare.com || true
        pkg_add curl wget zip gmake nasm pcre2 libedit automake-1.15.1 libtool
 
@@ -242,6 +243,7 @@ jobs:
 
       run: |
        rm -f jobdone
+       sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake nasm pcre2 libedit automake-1.15.1 libtool
        /sbin/ldconfig -r
@@ -293,6 +295,7 @@ jobs:
 
       run: |
        rm -f jobdone
+       sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake gmp pcre2 libedit automake-1.15.1 libtool
        /sbin/ldconfig -r
@@ -341,6 +344,7 @@ jobs:
       usesh: true
       sync: sshfs
       prepare: |
+       pkg upgrade -y
        rdate time.cloudflare.com || true
        pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
 
@@ -393,6 +397,7 @@ jobs:
       run: |
        rm -f jobdone
        export IGNORE_OSVERSION=yes
+       sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
        /sbin/ldconfig -r
@@ -442,6 +447,7 @@ jobs:
       run: |
        rm -f jobdone
        export IGNORE_OSVERSION=yes
+       sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
        /sbin/ldconfig -r
