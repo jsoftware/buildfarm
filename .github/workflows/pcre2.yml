@@ -61,6 +61,8 @@ jobs:
    - name: Setup Environment (macOS)
      run: |
       brew install automake
+      brew install libtool
+      ln -s /usr/local/bin/glibtoolize /usr/local/bin/libtoolize || true
 
    - name: Copy Source Files (Linux)
      run: script/pcre2-copysrc.sh darwin
@@ -497,6 +499,8 @@ jobs:
       CC: clang
      run: |
       brew install automake
+      brew install libtool
+      ln -s /usr/local/bin/glibtoolize /usr/local/bin/libtoolize || true
       script/pcre2-copysrc.sh android || exit 1
       script/pcre2-build.sh android || exit 1
 
