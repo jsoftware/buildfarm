@@ -481,7 +481,7 @@ jobs:
 # android --------------------------------------------------------------
  jpcre2android:
   name: JPCRE2 (android)
-  runs-on: macos-13
+  runs-on: ubuntu-20.04
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
