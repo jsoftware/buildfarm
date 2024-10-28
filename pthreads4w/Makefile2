@@ -34,6 +34,14 @@ VCFLAGS= $(CF1) -Wno-single-bit-bitfield-constant-conversion /I. /DHAVE_CONFIG_H
 DLL_OBJS= pthread.o
 STATIC_OBJS= pthread.o
 
+ifndef LD
+LD=lld-link
+endif
+
+ifndef CLRC
+CLRC=llvm-rc
+endif
+
 clean:
 	rm -f *.exp version.res $(DLL_OBJS) $(STATIC_OBJS)
 
