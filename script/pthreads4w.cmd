@@ -26,20 +26,25 @@ IF %ERRORLEVEL% NEQ 0 EXIT /b %ERRORLEVEL%
 :L01C
 
 cd ..
+
 IF "%~1"=="x86" GOTO L02A
 IF "%~1"=="arm64" GOTO L02B
 IF "%~1" NEQ "x64" EXIT /b 1
-mkdir ..\x64
-copy pthreads4w\*.dll ..\x64
-copy pthreads4w\*.lib ..\x64
+mkdir x64
+copy pthreads4w\*.dll x64
+copy pthreads4w\*.lib x64
+dir x64\*
 GOTO L02C
 :L02A
-mkdir ..\x86
-copy pthreads4w\*.dll ..\x86
-copy pthreads4w\*.lib ..\x86
+mkdir x86
+copy pthreads4w\*.dll x86
+copy pthreads4w\*.lib x86
+dir x86\*
 GOTO L02C
 :L02B
-mkdir ..\arm64
-copy pthreads4w\*.dll ..\arm64
-copy pthreads4w\*.lib ..\arm64
+mkdir arm64
+copy pthreads4w\*.dll arm64
+copy pthreads4w\*.lib arm64
+dir arm64\*
 :L02C
+

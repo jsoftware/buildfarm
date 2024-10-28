@@ -544,34 +544,34 @@ jobs:
       replacesArtifacts: true
 
 # windows --------------------------------------------------------------
- jpcre2win:
-  name: JPCRE2 (Windows)
-  if: ${{ false }}
-  runs-on: ubuntu-20.04
+ jpcre2winx64:
+  name: JPCRE2 (Windows x64)
+  runs-on: windows-2022
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
 
-   - name: Setup Environment (Windows)
-     run: script/install-lnx.sh
+   - name: Setup Environment (Windows x64)
+     uses: ilammy/msvc-dev-cmd@v1
+     with:
+      arch: amd64
 
-   - name: Build JPCRE2 (Windows)
-     env:
-      CC: clang
+   - name: Build JPCRE2 (Windows x64)
+     shell: cmd
      run: |
-      script/pcre2-copysrc.sh win || exit 1
-      script/pcre2-build.sh win || exit 1
+      script\pcre2-copysrc.cmd x64
+      script\pcre2-build.cmd x64
 
-   - name: Compress Files (Windows)
+   - name: Compress Files (Windows x64)
      run: |
-      ls -l j64
-      zip -r pcre2-w64.zip j64
+      ls -l x64
+      zip -r pcre2-x64.zip x64
 
-   - name: Release JPCRE2 (Windows)
+   - name: Release JPCRE2 (Windows x64)
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "pcre2-w64.zip"
+      artifacts: "pcre2-x64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
