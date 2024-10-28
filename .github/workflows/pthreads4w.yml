@@ -109,6 +109,7 @@ jobs:
 
  webhook:
   name: Run Webhook
+  if: ${{ false }}
   runs-on: ubuntu-22.04
   needs: [jpthreads4wx64, jpthreads4wx86, jpthreads4warm64 ]
   steps:
@@ -117,4 +118,4 @@ jobs:
      env:
       webhook_url: ${{ secrets.WEBHOOK_URL }}
       webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-      data: '{ "id": "jpcre2build" }'
+      data: '{ "id": "jpthreads4wbuild" }'
