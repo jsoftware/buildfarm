@@ -1,0 +1,120 @@
+name: JPTHREADS4W
+
+on:
+ push:
+  branches: [ master ]
+
+# trigger workflow on file change
+#on:
+# push:
+#  paths:
+#   - 'version.txt'
+
+# if: ${{ false }}
+
+jobs:
+
+# windows x64 ----------------------------------------------------------
+ jpthreads4wx64:
+  name: JPTHREADS4W (Windows x64)
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Windows x64)
+     uses: ilammy/msvc-dev-cmd@v1
+     with:
+      arch: amd64
+
+   - name: Build JPTHREADS4W (Windows x64)
+     shell: cmd
+     run: |
+      script\pthreads4w.cmd x64
+
+   - name: Compress Files (Windows x64)
+     shell: pwsh
+     run: Compress-Archive x64 pthreads4w-x64.zip
+
+   - name: Release JPTHREADS4W (Windows x64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "pthreads4w-x64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows x86 ----------------------------------------------------------
+ jpthreads4wx86:
+  name: JPTHREADS4W (Windows x86)
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Windows x86)
+     uses: ilammy/msvc-dev-cmd@v1
+     with:
+      arch: x86
+
+   - name: Build JPTHREADS4W (Windows x86)
+     shell: cmd
+     run: |
+      script\pthreads4w.cmd x86
+
+   - name: Compress Files (Windows x86)
+     shell: pwsh
+     run: Compress-Archive x86 pthreads4w-x86.zip
+
+   - name: Release JPTHREADS4W (Windows x86)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "pthreads4w-x86.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows arm64 --------------------------------------------------------
+ jpthreads4warm64:
+  name: JPTHREADS4W (Windows arm64)
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Windows arm64)
+     uses: ilammy/msvc-dev-cmd@v1
+     with:
+      arch: amd64_arm64
+
+   - name: Build JPTHREADS4W (Windows arm64)
+     shell: cmd
+     run: |
+      script\pthreads4w.cmd arm64
+
+   - name: Compress Files (Windows arm64)
+     shell: pwsh
+     run: Compress-Archive arm64 pthreads4w-arm64.zip
+
+   - name: Release JPTHREADS4W (Windows arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "pthreads4w-arm64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+ webhook:
+  name: Run Webhook
+  runs-on: ubuntu-22.04
+  needs: [jpthreads4wx64, jpthreads4wx86, jpthreads4warm64 ]
+  steps:
+   - name: update server
+     uses: distributhor/workflow-webhook@v2
+     env:
+      webhook_url: ${{ secrets.WEBHOOK_URL }}
+      webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+      data: '{ "id": "jpthreads4wbuild" }'
