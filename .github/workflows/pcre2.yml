@@ -579,7 +579,7 @@ jobs:
  webhook:
   name: Run Webhook
   runs-on: ubuntu-22.04
-  needs: [jpcre2linux, jpcre2macos, jpcre2rpi64, jpcre2rpi32, jpcre2win, jpcre2freebsd2, jpcre2freebsdarm64, jpcre2openbsd2, jpcre2openbsdarm64]
+  needs: [jpcre2linux, jpcre2macos, jpcre2rpi64, jpcre2rpi32, jpcre2winx64, jpcre2freebsd2, jpcre2freebsdarm64, jpcre2openbsd2, jpcre2openbsdarm64]
   steps:
    - name: update server
      uses: distributhor/workflow-webhook@v2
