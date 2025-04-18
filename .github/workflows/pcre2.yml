@@ -543,9 +543,10 @@ jobs:
       allowUpdates: true
       replacesArtifacts: true
 
-# windows --------------------------------------------------------------
+# windows x64 ----------------------------------------------------------
  jpcre2winx64:
   name: JPCRE2 (Windows x64)
+  if: ${{ false }}
   runs-on: windows-2022
   steps:
    - name: Checkout Git repository
@@ -564,7 +565,7 @@ jobs:
 
    - name: Compress Files (Windows x64)
      run: |
-      ls -l x64
+      dir x64
       zip -r pcre2-x64.zip x64
 
    - name: Release JPCRE2 (Windows x64)
@@ -572,6 +573,40 @@ jobs:
      with:
       tag: build
       artifacts: "pcre2-x64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows arm64 --------------------------------------------------------------
+ jpcre2winarm64:
+  name: JPCRE2 (Windows arm64)
+  if: ${{ false }}
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Windows arm64)
+     uses: ilammy/msvc-dev-cmd@v1
+     with:
+      arch: amd64_arm64
+
+   - name: Build JPCRE2 (Windows arm64)
+     shell: cmd
+     run: |
+      script\pcre2-copysrc.cmd arm64
+      script\pcre2-build.cmd arm64
+
+   - name: Compress Files (Windows arm64)
+     run: |
+      dir arm64
+      zip -r pcre2-warm64.zip arm64
+
+   - name: Release JPCRE2 (Windows arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "pcre2-warm64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
