@@ -17,7 +17,7 @@ jobs:
 # linux ----------------------------------------------------------------
  jpcre2linux:
   name: JPCRE2 (Linux)
-  runs-on: ubuntu-20.04
+  runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -90,7 +90,7 @@ jobs:
 # rpi64 ----------------------------------------------------------------
  jpcre2rpi64:
   name: JPCRE2 (Raspberry)
-  runs-on: ubuntu-20.04
+  runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -133,7 +133,7 @@ jobs:
 # rpi32 ----------------------------------------------------------------
  jpcre2rpi32:
   name: JPCRE2 (Raspberry32)
-  runs-on: ubuntu-20.04
+  runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4

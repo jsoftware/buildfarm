@@ -46,7 +46,7 @@ clean:
 	rm -f *.exp version.res $(DLL_OBJS) $(STATIC_OBJS)
 
 $(DLLS): $(DLL_OBJS) version.res pthread.def
-	$(LD) /NOLOGO $(FLAGS) /DEF:pthread.def /implib:pthreadVC$(PTW32_VER).lib /out:$@ $(DLL_OBJS) $(XLIBS) version.res
+	$(LD) /NOLOGO $(FLAGS) /DEF:pthread.def /out:$@ $(DLL_OBJS) $(XLIBS) version.res
 
 $(INLINED_STATIC_STAMPS): $(STATIC_OBJS) version.res
 	$(LIBEXE) /NOLOGO $(STATIC_OBJS) $(XLIBS) version.res /out:$@
