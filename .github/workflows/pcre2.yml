@@ -53,7 +53,7 @@ jobs:
 # macOS ----------------------------------------------------------------
  jpcre2macos:
   name: JPCRE2 (macOS)
-  runs-on: macos-13
+  runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -179,7 +179,7 @@ jobs:
  jpcre2openbsd:
   name: JPCRE2 (OpenBSD vmactions)
   if: ${{ false }}
-  runs-on: macos-13
+  runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -230,7 +230,7 @@ jobs:
 # openbsd --------------------------------------------------------------
  jpcre2openbsd2:
   name: JPCRE2 (OpenBSD cross-platform-actions)
-  runs-on: macos-13
+  runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -335,7 +335,7 @@ jobs:
  jpcre2freebsd:
   name: JPCRE2 (FreeBSD vmactions)
   if: ${{ false }}
-  runs-on: macos-13
+  runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -484,7 +484,7 @@ jobs:
  jpcre2android:
   name: JPCRE2 (android)
   if: ${{ false }}
-  runs-on: macos-14
+  runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
