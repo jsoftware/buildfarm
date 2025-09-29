@@ -64,7 +64,7 @@ jobs:
       brew install libtool
       ln -s /usr/local/bin/glibtoolize /usr/local/bin/libtoolize || true
 
-   - name: Copy Source Files (Linux)
+   - name: Copy Source Files (macOS)
      run: script/pcre2-copysrc.sh darwin
 
    - name: Build JPCRE2 (macOS)
@@ -83,6 +83,43 @@ jobs:
      with:
       tag: build
       artifacts: "pcre2-m64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# macOS arm64 ----------------------------------------------------------
+ jpcre2macosarm:
+  name: JPCRE2 (macOS arm64)
+  runs-on: macos-15
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (macOS arm64)
+     run: |
+      brew install automake
+      brew install libtool
+      ln -s /usr/local/bin/glibtoolize /usr/local/bin/libtoolize || true
+
+   - name: Copy Source Files (macOS arm64)
+     run: script/pcre2-copysrc.sh darwin
+
+   - name: Build JPCRE2 (macOS arm64)
+     env:
+      CC: clang
+     run: |
+      script/pcre2-build.sh darwin || exit 1
+
+   - name: Compress Files (macOS arm64)
+     run: |
+      ls -l j64
+      zip -r pcre2-m64arm.zip j64
+
+   - name: Release JPCRE2 (macOS arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "pcre2-m64arm.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -139,7 +176,7 @@ jobs:
      env:
       CC: arm-linux-gnueabihf-gcc
      run: |
-      script/pcre2-build.sh raspberry arm32 || exit 1
+      script/pcre2-build.sh raspberry armv6l || exit 1
 
    - name: Compress Files (Linux arm32)
      run: |
@@ -684,7 +721,7 @@ jobs:
  webhook:
   name: Run Webhook
   runs-on: ubuntu-22.04
-  needs: [jpcre2linux, jpcre2macos, jpcre2rpi64arm, jpcre2rpi32arm, jpcre2winx64, jpcre2freebsd2, jpcre2freebsdarm64, jpcre2openbsd2, jpcre2openbsdarm64]
+  needs: [jpcre2linux, jpcre2macos, jpcre2macosarm, jpcre2rpi64arm, jpcre2rpi32arm, jpcre2winx64, jpcre2freebsd2, jpcre2freebsdarm64, jpcre2openbsd2, jpcre2openbsdarm64]
   steps:
    - name: update server
      uses: distributhor/workflow-webhook@v2

@@ -14,9 +14,9 @@ cd $S
 
 rm -f src/*.o .libs/*.o
 
-./autogen.sh
+arch -x86_64 ./autogen.sh
 
-CC=clang ./configure \
+arch -x86_64 CC=clang ./configure \
  --enable-pcre2-8 \
  --disable-pcre2-16 \
  --disable-pcre2-32 \
