@@ -87,9 +87,78 @@ jobs:
       allowUpdates: true
       replacesArtifacts: true
 
+# rpi64arm -------------------------------------------------------------
+ jpcre2rpi64arm:
+  name: JPCRE2 (Linux arm64)
+  runs-on: ubuntu-22.04-arm
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Linux arm64)
+     run: script/install-rpi.sh
+
+   - name: Copy Source Files (Linux arm64)
+     run: script/pcre2-copysrc.sh linux
+
+   - name: Build JPCRE2 (Linux arm64)
+     env:
+      CC: clang
+     run: |
+      script/pcre2-build.sh raspberry arm64 || exit 1
+
+   - name: Compress Files (Linux arm64)
+     run: |
+      ls -l j64
+      zip -r pcre2-rpi64.zip j64
+
+   - name: Release JPCRE2 (Linux arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "pcre2-rpi64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# rpi32arm -------------------------------------------------------------
+ jpcre2rpi32arm:
+  name: JPCRE2 (Linux arm32)
+  runs-on: ubuntu-22.04-arm
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Linux arm32)
+     run: script/install-rpi.sh
+
+   - name: Copy Source Files (Linux arm32)
+     run: script/pcre2-copysrc.sh linux
+
+   - name: Build JPCRE2 (Linux arm32)
+     env:
+      CC: arm-linux-gnueabihf-gcc
+     run: |
+      script/pcre2-build.sh raspberry arm32 || exit 1
+
+   - name: Compress Files (Linux arm32)
+     run: |
+      ls -l j32
+      zip -r pcre2-rpi32.zip j32
+
+   - name: Release JPCRE2 (Linux arm32)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "pcre2-rpi32.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
 # rpi64 ----------------------------------------------------------------
  jpcre2rpi64:
   name: JPCRE2 (Raspberry)
+  if: ${{ false }}
   runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
@@ -133,6 +202,7 @@ jobs:
 # rpi32 ----------------------------------------------------------------
  jpcre2rpi32:
   name: JPCRE2 (Raspberry32)
+  if: ${{ false }}
   runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
@@ -614,7 +684,7 @@ jobs:
  webhook:
   name: Run Webhook
   runs-on: ubuntu-22.04
-  needs: [jpcre2linux, jpcre2macos, jpcre2rpi64, jpcre2rpi32, jpcre2winx64, jpcre2freebsd2, jpcre2freebsdarm64, jpcre2openbsd2, jpcre2openbsdarm64]
+  needs: [jpcre2linux, jpcre2macos, jpcre2rpi64arm, jpcre2rpi32arm, jpcre2winx64, jpcre2freebsd2, jpcre2freebsdarm64, jpcre2openbsd2, jpcre2openbsdarm64]
   steps:
    - name: update server
      uses: distributhor/workflow-webhook@v2
