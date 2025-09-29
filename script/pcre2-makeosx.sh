@@ -14,10 +14,9 @@ cd $S
 
 rm -f src/*.o .libs/*.o
 
-arch -x86_64 ./autogen.sh
+./autogen.sh
 
-export CC=clang
-arch -x86_64 ./configure \
+CC=clang ./configure \
  --enable-pcre2-8 \
  --disable-pcre2-16 \
  --disable-pcre2-32 \
@@ -28,16 +27,29 @@ arch -x86_64 ./configure \
 
 make -f Makefile clean
 make -f Makefile
+if [ "`uname -m`" = "x86_64" ] ; then
 cp .libs/libpcre2-8.0.dylib libpcre2-8.0-x86_64.dylib
+else
+cp .libs/libpcre2-8.0.dylib libpcre2-8.0-arm64.dylib
+fi
 
 rm -f src/*.o .libs/*.o
 
+if [ "`uname -m`" = "x86_64" ] ; then
 sed -i "" -e "s/^CPPFLAGS = $/CPPFLAGS = -arch arm64/" Makefile
 sed -i "" -e "s/^LDFLAGS = $/LDFLAGS = -arch arm64/" Makefile
+else
+sed -i "" -e "s/^CPPFLAGS = $/CPPFLAGS = -arch x86_64/" Makefile
+sed -i "" -e "s/^LDFLAGS = $/LDFLAGS = -arch x86_64/" Makefile
+fi
 
 make -f Makefile clean
 make -f Makefile
+if [ "`uname -m`" = "x86_64" ] ; then
 cp .libs/libpcre2-8.0.dylib libpcre2-8.0-arm64.dylib
+else
+cp .libs/libpcre2-8.0.dylib libpcre2-8.0-x86_64.dylib
+fi
 
 rm -f .libs/*.o
 lipo libpcre2-8.0-x86_64.dylib libpcre2-8.0-arm64.dylib -create -output .libs/libpcre2-8.dylib 
