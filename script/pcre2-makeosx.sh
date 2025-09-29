@@ -16,7 +16,8 @@ rm -f src/*.o .libs/*.o
 
 arch -x86_64 ./autogen.sh
 
-arch -x86_64 CC=clang ./configure \
+export CC=clang
+arch -x86_64 ./configure \
  --enable-pcre2-8 \
  --disable-pcre2-16 \
  --disable-pcre2-32 \
