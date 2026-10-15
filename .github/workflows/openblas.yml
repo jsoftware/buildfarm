@@ -210,7 +210,7 @@ jobs:
        rm -f jobdone
        export CC=clang
        alias make=gmake
-       script/openblas-make.sh openblas || exit 1
+       script/openblas-make.sh openbsd || exit 1
        touch jobdone
 
    - name: Check Status (OpenBSD)
@@ -250,7 +250,7 @@ jobs:
        sudo pkg_add curl wget zip gmake git
        export CC=clang
        alias make=gmake
-       script/openblas-make.sh openblas || exit 1
+       script/openblas-make.sh openbsd || exit 1
        touch jobdone
 
    - name: Check Status (OpenBSD)
@@ -291,7 +291,7 @@ jobs:
        sudo pkg_add curl wget zip gmake git
        export CC=clang
        alias make=gmake
-       script/openblas-make.sh openblas arm64 || exit 1
+       script/openblas-make.sh openbsd arm64 || exit 1
        ls -l j64
        zip -r openblas-obsdarm64.zip j64
        touch jobdone
