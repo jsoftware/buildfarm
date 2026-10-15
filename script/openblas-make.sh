@@ -182,7 +182,6 @@ elif [ "$1" = "darwin" ]; then
  ext="dylib"
  if [ "$2" = "x86_64" ]; then
   x86_64
-  x86_64avx2
   cd libs
   zip ../../"$1"-m64.zip *
  else
@@ -192,7 +191,7 @@ elif [ "$1" = "darwin" ]; then
  fi
  cd -
 elif [ "$1" = "android" ]; then
- which ndk-built
+ which ndk-build
  echo $ANDROID_NDK_HOME
  export TOOLCHAIN=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64
  ext="so"

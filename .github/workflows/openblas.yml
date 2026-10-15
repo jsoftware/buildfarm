@@ -208,11 +208,12 @@ jobs:
      uses: actions/checkout@v4
 
    - name: Build OPENBLAS (OpenBSD)
-     uses: cross-platform-actions/action@v0.23.0
+     uses: cross-platform-actions/action@v1.3.0
      with:
       operating_system: openbsd
       architecture: x86-64
-      version: '7.2'
+      version: '7.9'
+      cpu_count: 4
       shell: bash
 
       run: |
@@ -258,11 +259,12 @@ jobs:
      uses: actions/checkout@v4
 
    - name: Build, Test OPENBLAS (OpenBSD arm64)
-     uses: cross-platform-actions/action@v0.23.0
+     uses: cross-platform-actions/action@v1.3.0
      with:
       operating_system: openbsd
       architecture: arm64
-      version: '7.2'
+      version: '7.9'
+      cpu_count: 4
       shell: bash
 
       run: |
@@ -357,11 +359,12 @@ jobs:
      uses: actions/checkout@v4
 
    - name: Build OPENBLAS (FreeBSD)
-     uses: cross-platform-actions/action@v0.23.0
+     uses: cross-platform-actions/action@v1.3.0
      with:
       operating_system: freebsd
       architecture: x86-64
-      version: '13.2'
+      version: '15.1'
+      cpu_count: 4
       shell: bash
 
       run: |
@@ -405,11 +408,12 @@ jobs:
      uses: actions/checkout@v4
 
    - name: Build OPENBLAS (FreeBSD arm64)
-     uses: cross-platform-actions/action@v0.23.0
+     uses: cross-platform-actions/action@v1.3.0
      with:
       operating_system: freebsd
       architecture: arm64
-      version: '13.2'
+      version: '15.1'
+      cpu_count: 4
       shell: bash
 
       run: |
