@@ -173,7 +173,7 @@ elif [ "$1" = "raspberry" ]; then
   cd libs
   zip ../../"$1"-rpi64.zip *
  else
-  arm64
+  rpi32
   cd libs
   zip ../../"$1"-rpi32.zip *
  fi

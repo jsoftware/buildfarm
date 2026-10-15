@@ -128,7 +128,6 @@ jobs:
 # rpi32arm -------------------------------------------------------------
  openblasrpi32arm:
   name: OPENBLAS (Linux arm32)
-  if: ${{ false }}
   runs-on: ubuntu-22.04-arm
   steps:
    - name: Checkout Git repository
