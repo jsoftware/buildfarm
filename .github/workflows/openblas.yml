@@ -169,7 +169,8 @@ jobs:
       image_additional_mb: 1024
       copy_artifact_path: j32
       commands: |
-       apt-get install --no-install-recommends -y clang zip libomp-dev gdb git
+       apt-get update -y
+       apt-get install --no-install-recommends -y clang zip git
        export CC=clang
        script/openblas-make.sh raspberry armv6l || exit 1
        touch jobdone
