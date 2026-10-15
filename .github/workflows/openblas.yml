@@ -1,0 +1,582 @@
+name: OPENBLAS
+
+on:
+ push:
+  branches: [ master ]
+
+# trigger workflow on file change
+#on:
+# push:
+#  paths:
+#   - 'version.txt'
+
+# if: ${{ false }}
+
+jobs:
+
+# linux ----------------------------------------------------------------
+ openblaslinux:
+  name: OPENBLAS (Linux)
+  runs-on: ubuntu-22.04
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Linux)
+     run: script/install-lnx.sh
+
+   - name: Build OPENBLAS (Linux)
+     env:
+      CC: clang
+     run: |
+      script/openblas-make.sh linux || exit 1
+
+   - name: Release OPENBLAS (Linux)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-linux.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# macOS ----------------------------------------------------------------
+ openblasmacos:
+  name: OPENBLAS (macOS)
+  runs-on: macos-15-intel
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (macOS)
+     run: |
+      brew install automake
+      brew install libtool
+      ln -s /usr/local/bin/glibtoolize /usr/local/bin/libtoolize || true
+
+   - name: Build OPENBLAS (macOS)
+     env:
+      CC: clang
+     run: |
+      script/openblas-make.sh darwin x86_64 || exit 1
+
+   - name: Release OPENBLAS (macOS)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-m64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# macOS arm64 ----------------------------------------------------------
+ openblasmacosarm:
+  name: OPENBLAS (macOS arm64)
+  runs-on: macos-15
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (macOS arm64)
+     run: |
+      brew install automake
+      brew install libtool
+      ln -s /usr/local/bin/glibtoolize /usr/local/bin/libtoolize || true
+
+   - name: Build OPENBLAS (macOS arm64)
+     env:
+      CC: clang
+     run: |
+      script/openblas-make.sh darwin arm64 || exit 1
+
+   - name: Release OPENBLAS (macOS arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-m64arm.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# rpi64arm -------------------------------------------------------------
+ openblasrpi64arm:
+  name: OPENBLAS (Linux arm64)
+  runs-on: ubuntu-22.04-arm
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Linux arm64)
+     run: script/install-rpi.sh
+
+   - name: Build OPENBLAS (Linux arm64)
+     env:
+      CC: clang
+     run: |
+      script/openblas-make.sh raspberry arm64 || exit 1
+
+   - name: Release OPENBLAS (Linux arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-rpi64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# rpi32arm -------------------------------------------------------------
+ openblasrpi32arm:
+  name: OPENBLAS (Linux arm32)
+  runs-on: ubuntu-22.04-arm
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Linux arm32)
+     run: script/install-rpi.sh
+
+   - name: Build OPENBLAS (Linux arm32)
+     env:
+      CC: arm-linux-gnueabihf-gcc
+     run: |
+      script/openblas-make.sh raspberry armv6l || exit 1
+
+   - name: Release OPENBLAS (Linux arm32)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-rpi32.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# openbsd --------------------------------------------------------------
+ openblasopenbsd:
+  name: OPENBLAS (OpenBSD vmactions)
+  if: ${{ false }}
+  runs-on: macos-15-intel
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Build OPENBLAS (OpenBSD)
+     uses: vmactions/openbsd-vm@v0
+     with:
+      usesh: true
+      sync: sshfs
+      prepare: |
+       pkg_add -u
+       rdate time.cloudflare.com || true
+       pkg_add curl wget zip gmake nasm pcre2 libedit automake-1.15.1 libtool
+
+      run: |
+       rm -f jobdone
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       echo "Host *" >>~/.ssh/config || true
+       echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       cat ~/.ssh/config || true
+       export CC=clang
+       ls -l /usr/local/bin/auto*
+       export AUTOMAKE_VERSION=1.15
+       export AUTOCONF_VERSION=2.69
+       script/openblas-make.sh openblas || exit 1
+       touch jobdone
+
+   - name: Check Status (OpenBSD)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release OPENBLAS (OpenBSD)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-obsd64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# openbsd --------------------------------------------------------------
+ openblasopenbsd2:
+  name: OPENBLAS (OpenBSD cross-platform-actions)
+  runs-on: macos-15-intel
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Build OPENBLAS (OpenBSD)
+     uses: cross-platform-actions/action@v0.23.0
+     with:
+      operating_system: openbsd
+      architecture: x86-64
+      version: '7.2'
+      shell: bash
+
+      run: |
+       rm -f jobdone
+       sudo pkg_add -u
+       sudo rdate time.cloudflare.com || true
+       sudo pkg_add curl wget zip gmake nasm pcre2 libedit automake-1.15.1 libtool
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       sudo echo "Host *" >>~/.ssh/config || true
+       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       sudo cat ~/.ssh/config || true
+       export CC=clang
+       ls -l /usr/local/bin/auto*
+       export AUTOMAKE_VERSION=1.15
+       export AUTOCONF_VERSION=2.69
+       script/openblas-make.sh openblas || exit 1
+       touch jobdone
+
+   - name: Check Status (OpenBSD)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release OPENBLAS (OpenBSD)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-obsd64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# openbsd arm64 --------------------------------------------------------
+ openblasopenbsdarm64:
+  name: OPENBLAS (OpenBSD arm64)
+  if: ${{ false }}
+  runs-on: ubuntu-22.04
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Build, Test OPENBLAS (OpenBSD arm64)
+     uses: cross-platform-actions/action@v0.23.0
+     with:
+      operating_system: openbsd
+      architecture: arm64
+      version: '7.2'
+      shell: bash
+
+      run: |
+       rm -f jobdone
+       sudo pkg_add -u
+       sudo rdate time.cloudflare.com || true
+       sudo pkg_add curl wget zip gmake gmp pcre2 libedit automake-1.15.1 libtool
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       sudo echo "Host *" >>~/.ssh/config || true
+       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       sudo cat ~/.ssh/config || true
+       export CC=clang
+       ls -l /usr/local/bin/auto*
+       export AUTOMAKE_VERSION=1.15
+       export AUTOCONF_VERSION=2.69
+       script/openblas-make.sh openblas arm64 || exit 1
+       ls -l j64
+       zip -r openblas-obsdarm64.zip j64
+       touch jobdone
+
+   - name: Check Status (OpenBSD arm64)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release OPENBLAS (OpenBSD arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-obsdarm64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# freebsd --------------------------------------------------------------
+ openblasfreebsd:
+  name: OPENBLAS (FreeBSD vmactions)
+  if: ${{ false }}
+  runs-on: macos-15-intel
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Build OPENBLAS (FreeBSD)
+     uses: vmactions/freebsd-vm@v0
+     with:
+      usesh: true
+      sync: sshfs
+      prepare: |
+       pkg upgrade -y
+       rdate time.cloudflare.com || true
+       pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
+
+      run: |
+       rm -f jobdone
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       echo "Host *" >>~/.ssh/config || true
+       echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       cat ~/.ssh/config || true
+       export CC=clang
+       script/openblas-make.sh freebsd || exit 1
+       ls -l j64
+       zip -r openblas-fbsd64.zip j64
+       touch jobdone
+
+   - name: Check Status (FreeBSD)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release OPENBLAS (FreeBSD)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-fbsd64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# freebsd --------------------------------------------------------------
+ openblasfreebsd2:
+  name: OPENBLAS (FreeBSD cross-platform-actions)
+  runs-on: ubuntu-latest
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Build OPENBLAS (FreeBSD)
+     uses: cross-platform-actions/action@v0.23.0
+     with:
+      operating_system: freebsd
+      architecture: x86-64
+      version: '13.2'
+      shell: bash
+
+      run: |
+       rm -f jobdone
+       export IGNORE_OSVERSION=yes
+       sudo pkg upgrade -y
+       sudo rdate time.cloudflare.com || true
+       sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       sudo echo "Host *" >>~/.ssh/config || true
+       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       sudo cat ~/.ssh/config || true
+       export CC=clang
+       script/openblas-make.sh freebsd || exit 1
+       touch jobdone
+
+   - name: Check Status (FreeBSD)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release OPENBLAS (FreeBSD)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-fbsd64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# freebsdarm64  --------------------------------------------------------
+ openblasfreebsdarm64:
+  name: OPENBLAS (FreeBSD arm64)
+  if: ${{ false }}
+  runs-on: ubuntu-latest
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Build OPENBLAS (FreeBSD arm64)
+     uses: cross-platform-actions/action@v0.23.0
+     with:
+      operating_system: freebsd
+      architecture: arm64
+      version: '13.2'
+      shell: bash
+
+      run: |
+       rm -f jobdone
+       export IGNORE_OSVERSION=yes
+       sudo pkg upgrade -y
+       sudo rdate time.cloudflare.com || true
+       sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
+       /sbin/ldconfig -r
+       ls -al ~/
+       ls -al ~/.ssh
+       sudo echo "Host *" >>~/.ssh/config || true
+       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
+       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
+       echo "client ssh config"
+       sudo cat ~/.ssh/config || true
+       export CC=clang
+       script/openblas-make.sh freebsd arm64 || exit 1
+       touch jobdone
+
+   - name: Check Status (FreeBSD arm64)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release OPENBLAS (FreeBSD arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-fbsdarm64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# android --------------------------------------------------------------
+ openblasandroid:
+  name: OPENBLAS (android)
+  runs-on: macos-15
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (android)
+     uses: nttld/setup-ndk@v1
+     with:
+      ndk-version: r29
+      local-cache: false
+
+   - name: Build OPENBLAS (android)
+     env:
+      CC: clang
+     run: |
+      brew install automake
+      brew install libtool
+      ln -s /usr/local/bin/glibtoolize /usr/local/bin/libtoolize || true
+      script/openblas-make.sh android || exit 1
+
+   - name: Release OPENBLAS (android)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-android.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# wasm -----------------------------------------------------------------
+ openblaswasm:
+  name: OPENBLAS (wasm)
+  runs-on: ubuntu-22.04
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (wasm)
+     uses: mymindstorm/setup-emsdk@v11
+
+   - name: Build OPENBLAS (wasm)
+     env:
+      CC: emcc
+     run: |
+      script/openblas-make.sh wasm || exit 1
+      ls -l j32
+      zip -r openblas-wasm32.zip j32
+
+   - name: Release OPENBLAS (wasm)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-wasm32.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows x64 ----------------------------------------------------------
+ openblaswinx64:
+  name: OPENBLAS (Windows x64)
+  if: ${{ false }}
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Windows x64)
+     uses: ilammy/msvc-dev-cmd@v1
+     with:
+      arch: amd64
+
+   - name: Build OPENBLAS (Windows x64)
+     shell: cmd
+     run: |
+      script\openblas-make.cmd x64
+
+   - name: Compress Files (Windows x64)
+     run: |
+      dir x64
+      zip -r openblas-x64.zip x64
+
+   - name: Release OPENBLAS (Windows x64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-x64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows arm64 --------------------------------------------------------------
+ openblaswinarm64:
+  name: OPENBLAS (Windows arm64)
+  if: ${{ false }}
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v4
+
+   - name: Setup Environment (Windows arm64)
+     uses: ilammy/msvc-dev-cmd@v1
+     with:
+      arch: amd64_arm64
+
+   - name: Build OPENBLAS (Windows arm64)
+     shell: cmd
+     run: |
+      script\openblas-make.cmd arm64
+
+   - name: Compress Files (Windows arm64)
+     run: |
+      dir arm64
+      zip -r openblas-warm64.zip arm64
+
+   - name: Release OPENBLAS (Windows arm64)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-warm64.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+ webhook:
+  name: Run Webhook
+  runs-on: ubuntu-22.04
+  needs: [openblaslinux, openblasmacos, openblasmacosarm, openblasrpi64arm, openblasrpi32arm, openblasfreebsd2, openblasopenbsd2]
+  steps:
+   - name: update server
+     uses: distributhor/workflow-webhook@v2
+     env:
+      webhook_url: ${{ secrets.WEBHOOK_URL }}
+      webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+      data: '{ "id": "openblasbuild" }'
