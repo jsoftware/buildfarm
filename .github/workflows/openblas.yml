@@ -35,7 +35,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "openblas-linux.zip"
+      artifacts: "openblas-lnx.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -208,11 +208,8 @@ jobs:
 
       run: |
        rm -f jobdone
-       /sbin/ldconfig -r
        export CC=clang
-       ls -l /usr/local/bin/auto*
-       export AUTOMAKE_VERSION=1.15
-       export AUTOCONF_VERSION=2.69
+       alias make=gmake
        script/openblas-make.sh openblas || exit 1
        touch jobdone
 
@@ -224,7 +221,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "openblas-obsd64.zip"
+      artifacts: "openblas-obsd.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -251,9 +248,8 @@ jobs:
        sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake git
-       /sbin/ldconfig -r
        export CC=clang
-       ls -l /usr/local/bin/auto*
+       alias make=gmake
        script/openblas-make.sh openblas || exit 1
        touch jobdone
 
@@ -265,7 +261,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "openblas-obsd64.zip"
+      artifacts: "openblas-obsd.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -293,11 +289,8 @@ jobs:
        sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake git
-       /sbin/ldconfig -r
        export CC=clang
-       ls -l /usr/local/bin/auto*
-       export AUTOMAKE_VERSION=1.15
-       export AUTOCONF_VERSION=2.69
+       alias make=gmake
        script/openblas-make.sh openblas arm64 || exit 1
        ls -l j64
        zip -r openblas-obsdarm64.zip j64
@@ -337,8 +330,8 @@ jobs:
 
       run: |
        rm -f jobdone
-       /sbin/ldconfig -r
        export CC=clang
+       alias make=gmake
        script/openblas-make.sh freebsd || exit 1
        ls -l j64
        zip -r openblas-fbsd64.zip j64
@@ -352,7 +345,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "openblas-fbsd64.zip"
+      artifacts: "openblas-fbsd.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -380,8 +373,8 @@ jobs:
        sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake git
-       /sbin/ldconfig -r
        export CC=clang
+       alias make=gmake
        script/openblas-make.sh freebsd || exit 1
        touch jobdone
 
@@ -393,7 +386,7 @@ jobs:
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "openblas-fbsd64.zip"
+      artifacts: "openblas-fbsd.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
@@ -422,8 +415,8 @@ jobs:
        sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake git
-       /sbin/ldconfig -r
        export CC=clang
+       alias make=gmake
        script/openblas-make.sh freebsd arm64 || exit 1
        touch jobdone
 
@@ -573,6 +566,7 @@ jobs:
   needs: [openblaslinux, openblasmacos, openblasmacosarm, openblasrpi64arm, openblasrpi32arm, openblasfreebsd2, openblasopenbsd2]
   steps:
    - name: update server
+     if: ${{ false }}
      uses: distributhor/workflow-webhook@v2
      env:
       webhook_url: ${{ secrets.WEBHOOK_URL }}

@@ -164,18 +164,18 @@ if [ "$1" = "linux" ]; then
  x86_64
  x86_64avx2
  cd libs
- zip ../../"$1".zip *
+ zip ../../openblas-lnx.zip *
  cd -
 elif [ "$1" = "raspberry" ]; then
  ext="so"
  if [ "$2" = "arm64" ]; then
   arm64
   cd libs
-  zip ../../"$1"-rpi64.zip *
+  zip ../../openblas-rpi64.zip *
  else
   rpi32
   cd libs
-  zip ../../"$1"-rpi32.zip *
+  zip ../../openblas-rpi32.zip *
  fi
  cd -
 elif [ "$1" = "darwin" ]; then
@@ -183,11 +183,11 @@ elif [ "$1" = "darwin" ]; then
  if [ "$2" = "x86_64" ]; then
   x86_64
   cd libs
-  zip ../../"$1"-m64.zip *
+  zip ../../openblas-m64.zip *
  else
   arm64
   cd libs
-  zip ../../"$1"-m64arm.zip *
+  zip ../../openblas-m64arm.zip *
  fi
  cd -
 elif [ "$1" = "android" ]; then
@@ -200,21 +200,21 @@ elif [ "$1" = "android" ]; then
  android_x86
  android_x64
  cd libs
- zip ../../"$1".zip *
+ zip ../../openblas-android.zip *
  cd -
 elif [ "$1" = "openbsd" ]; then
  ext="so"
  x86_64
  x86_64avx2
  cd libs
- zip ../../"$1".zip *
+ zip ../../openblas-obsd.zip *
  cd -
 elif [ "$1" = "freebsd" ]; then
  ext="so"
  x86_64
  x86_64avx2
  cd libs
- zip ../../"$1".zip *
+ zip ../../openblas-fbsd.zip *
  cd -
 elif [ "$1" = "windows" ]; then
  ext="dll"
