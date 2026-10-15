@@ -167,7 +167,7 @@ jobs:
       prepare: |
        pkg_add -u
        rdate time.cloudflare.com || true
-       pkg_add curl wget zip gmake nasm pcre2 libedit automake-1.15.1 libtool
+       pkg_add curl wget zip gmake nasm pcre2 libedit automake-1.15.1 libtool git
 
       run: |
        rm -f jobdone
@@ -219,7 +219,7 @@ jobs:
        rm -f jobdone
        sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
-       sudo pkg_add curl wget zip gmake nasm pcre2 libedit automake-1.15.1 libtool
+       sudo pkg_add curl wget zip gmake nasm pcre2 libedit automake-1.15.1 libtool dit
        /sbin/ldconfig -r
        ls -al ~/
        ls -al ~/.ssh
@@ -269,7 +269,7 @@ jobs:
        rm -f jobdone
        sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
-       sudo pkg_add curl wget zip gmake gmp pcre2 libedit automake-1.15.1 libtool
+       sudo pkg_add curl wget zip gmake gmp pcre2 libedit automake-1.15.1 libtool git
        /sbin/ldconfig -r
        ls -al ~/
        ls -al ~/.ssh
@@ -317,7 +317,7 @@ jobs:
       prepare: |
        pkg upgrade -y
        rdate time.cloudflare.com || true
-       pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
+       pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool git
 
       run: |
        rm -f jobdone
@@ -369,7 +369,7 @@ jobs:
        export IGNORE_OSVERSION=yes
        sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
-       sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
+       sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool git
        /sbin/ldconfig -r
        ls -al ~/
        ls -al ~/.ssh
@@ -417,7 +417,7 @@ jobs:
        export IGNORE_OSVERSION=yes
        sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
-       sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool
+       sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool git
        /sbin/ldconfig -r
        ls -al ~/
        ls -al ~/.ssh
@@ -459,6 +459,7 @@ jobs:
 
    - name: Build OPENBLAS (android)
      env:
+      ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
       CC: clang
      run: |
       brew install automake
@@ -478,6 +479,7 @@ jobs:
 # wasm -----------------------------------------------------------------
  openblaswasm:
   name: OPENBLAS (wasm)
+  if: ${{ false }}
   runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
