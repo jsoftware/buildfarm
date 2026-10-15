@@ -155,7 +155,7 @@ make \
 cp libopenblas.${ext} libs/libopenblas-x64.${ext}
 }
 
-mkdir -p OpenBLAS/build
+mkdir -p OpenBLAS/libs
 cd OpenBLAS
 
 if [ "$1" = "linux" ]; then
@@ -192,6 +192,7 @@ elif [ "$1" = "darwin" ]; then
  fi
  cd -
 elif [ "$1" = "android" ]; then
+ which ndk-built
  echo $ANDROID_NDK_HOME
  export TOOLCHAIN=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64
  ext="so"
