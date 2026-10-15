@@ -192,7 +192,8 @@ elif [ "$1" = "darwin" ]; then
  cd -
 elif [ "$1" = "android" ]; then
  which ndk-build
- export ANDROID_NDK_HOME=/Users/runner/hostedtoolcache/ndk/r29/x64
+ find /Users/runner/hostedtoolcache/ndk/r29 -type f
+ export ANDROID_NDK_HOME=/Users/runner/hostedtoolcache/ndk/r29/arm64
  export TOOLCHAIN=$ANDROID_NDK_HOME/prebuilt/darwin-x86_64
  ls $ANDROID_NDK_HOME/*
  ls $TOOLCHAIN/*
