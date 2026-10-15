@@ -196,7 +196,7 @@ jobs:
 # openbsd --------------------------------------------------------------
  openblasopenbsd2:
   name: OPENBLAS (OpenBSD cross-platform-actions)
-  runs-on: macos-15-intel
+  runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -240,7 +240,7 @@ jobs:
  openblasopenbsdarm64:
   name: OPENBLAS (OpenBSD arm64)
   if: ${{ false }}
-  runs-on: ubuntu-22.04
+  runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -286,7 +286,7 @@ jobs:
  openblasfreebsd:
   name: OPENBLAS (FreeBSD vmactions)
   if: ${{ false }}
-  runs-on: macos-15-intel
+  runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -443,7 +443,7 @@ jobs:
  openblaswasm:
   name: OPENBLAS (wasm)
   if: ${{ false }}
-  runs-on: ubuntu-22.04
+  runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
