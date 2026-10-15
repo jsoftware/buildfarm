@@ -102,7 +102,7 @@ jobs:
 # rpi64arm -------------------------------------------------------------
  openblasrpi64arm:
   name: OPENBLAS (Linux arm64)
-  runs-on: ubuntu-22.04-arm
+  runs-on: ubuntu-24.04-arm
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -128,7 +128,7 @@ jobs:
 # rpi32arm -------------------------------------------------------------
  openblasrpi32arm:
   name: OPENBLAS (Linux arm32)
-  runs-on: ubuntu-22.04-arm
+  runs-on: ubuntu-24.04-arm
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
@@ -154,6 +154,7 @@ jobs:
 # rpi32 ----------------------------------------------------------------
  openblaserpi32:
   name: OPENBLAS (Raspberry32)
+  if: ${{ false }}
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
@@ -189,45 +190,6 @@ jobs:
 
 # openbsd --------------------------------------------------------------
  openblasopenbsd:
-  name: OPENBLAS (OpenBSD vmactions)
-  if: ${{ false }}
-  runs-on: macos-15-intel
-  steps:
-   - name: Checkout Git repository
-     uses: actions/checkout@v4
-
-   - name: Build OPENBLAS (OpenBSD)
-     uses: vmactions/openbsd-vm@v0
-     with:
-      usesh: true
-      sync: sshfs
-      prepare: |
-       pkg_add -u
-       rdate time.cloudflare.com || true
-       pkg_add curl wget zip gmake git
-
-      run: |
-       rm -f jobdone
-       export CC=clang
-       alias make=gmake
-       script/openblas-make.sh openbsd || exit 1
-       touch jobdone
-
-   - name: Check Status (OpenBSD)
-     run: |
-      test -f jobdone || exit 1
-
-   - name: Release OPENBLAS (OpenBSD)
-     uses: ncipollo/release-action@v1
-     with:
-      tag: build
-      artifacts: "openblas-obsd.zip"
-      token: ${{ secrets.GITHUB_TOKEN }}
-      allowUpdates: true
-      replacesArtifacts: true
-
-# openbsd --------------------------------------------------------------
- openblasopenbsd2:
   name: OPENBLAS (OpenBSD cross-platform-actions)
   runs-on: ubuntu-latest
   steps:
@@ -249,7 +211,6 @@ jobs:
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake git
        export CC=clang
-       alias make=gmake
        script/openblas-make.sh openbsd || exit 1
        touch jobdone
 
@@ -290,7 +251,6 @@ jobs:
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake git
        export CC=clang
-       alias make=gmake
        script/openblas-make.sh openbsd arm64 || exit 1
        ls -l j64
        zip -r openblas-obsdarm64.zip j64
@@ -311,47 +271,6 @@ jobs:
 
 # freebsd --------------------------------------------------------------
  openblasfreebsd:
-  name: OPENBLAS (FreeBSD vmactions)
-  if: ${{ false }}
-  runs-on: ubuntu-latest
-  steps:
-   - name: Checkout Git repository
-     uses: actions/checkout@v4
-
-   - name: Build OPENBLAS (FreeBSD)
-     uses: vmactions/freebsd-vm@v0
-     with:
-      usesh: true
-      sync: sshfs
-      prepare: |
-       pkg upgrade -y
-       rdate time.cloudflare.com || true
-       pkg install -y curl wget zip gmake git
-
-      run: |
-       rm -f jobdone
-       export CC=clang
-       alias make=gmake
-       script/openblas-make.sh freebsd || exit 1
-       ls -l j64
-       zip -r openblas-fbsd64.zip j64
-       touch jobdone
-
-   - name: Check Status (FreeBSD)
-     run: |
-      test -f jobdone || exit 1
-
-   - name: Release OPENBLAS (FreeBSD)
-     uses: ncipollo/release-action@v1
-     with:
-      tag: build
-      artifacts: "openblas-fbsd.zip"
-      token: ${{ secrets.GITHUB_TOKEN }}
-      allowUpdates: true
-      replacesArtifacts: true
-
-# freebsd --------------------------------------------------------------
- openblasfreebsd2:
   name: OPENBLAS (FreeBSD cross-platform-actions)
   runs-on: ubuntu-latest
   steps:
@@ -374,7 +293,6 @@ jobs:
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake git
        export CC=clang
-       alias make=gmake
        script/openblas-make.sh freebsd || exit 1
        touch jobdone
 
@@ -416,7 +334,6 @@ jobs:
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake git
        export CC=clang
-       alias make=gmake
        script/openblas-make.sh freebsd arm64 || exit 1
        touch jobdone
 
@@ -562,8 +479,8 @@ jobs:
 
  webhook:
   name: Run Webhook
-  runs-on: ubuntu-22.04
-  needs: [openblaslinux, openblasmacos, openblasmacosarm, openblasrpi64arm, openblasrpi32arm, openblasfreebsd2, openblasopenbsd2]
+  runs-on: ubuntu-latest
+  needs: [openblaslinux, openblasmacos, openblasmacosarm, openblasrpi64arm, openblasrpi32arm, openblasfreebsd, openblasopenbsd]
   steps:
    - name: update server
      if: ${{ false }}
