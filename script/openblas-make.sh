@@ -93,7 +93,7 @@ make \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
-    CC="$TOOLCHAIN"/bin/armv7a-linux-androideabi29-clang \
+    CC="$TOOLCHAIN"/bin/armv7a-linux-androideabi24-clang \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
@@ -111,7 +111,7 @@ make \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
-    CC="$TOOLCHAIN"/bin/aarch64-linux-android29-clang \
+    CC="$TOOLCHAIN"/bin/aarch64-linux-android24-clang \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
@@ -128,7 +128,7 @@ make \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
-    CC="$TOOLCHAIN"/bin/i686-linux-android29-clang \
+    CC="$TOOLCHAIN"/bin/i686-linux-android24-clang \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
@@ -146,7 +146,7 @@ make \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
-    CC="$TOOLCHAIN"/bin/x86_64-linux-android29-clang \
+    CC="$TOOLCHAIN"/bin/x86_64-linux-android24-clang \
     AR="$TOOLCHAIN"/bin/x86_64-linux-android-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
@@ -192,13 +192,13 @@ elif [ "$1" = "darwin" ]; then
  cd -
 elif [ "$1" = "android" ]; then
  which ndk-build
- find /Users/runner/hostedtoolcache/ndk/r29 -type f
- export ANDROID_NDK_HOME=/Users/runner/hostedtoolcache/ndk/r29/arm64
+ find /Users/runner/hostedtoolcache/ndk/r24 -type f
+ export ANDROID_NDK_HOME=/Users/runner/hostedtoolcache/ndk/r24/arm64
  export TOOLCHAIN=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64
  ls $ANDROID_NDK_HOME/*
  ls $TOOLCHAIN/*
  ext="so"
- # android_armv7
+ android_armv7
  android_armv8
  android_x86
  android_x64

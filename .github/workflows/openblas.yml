@@ -128,6 +128,7 @@ jobs:
 # rpi32arm -------------------------------------------------------------
  openblasrpi32arm:
   name: OPENBLAS (Linux arm32)
+  if: ${{ false }}
   runs-on: ubuntu-22.04-arm
   steps:
    - name: Checkout Git repository
@@ -143,6 +144,41 @@ jobs:
       script/openblas-make.sh raspberry armv6l || exit 1
 
    - name: Release OPENBLAS (Linux arm32)
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-rpi32.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# rpi32 ----------------------------------------------------------------
+ openblaserpi32:
+  name: OPENBLAS (Raspberry32)
+  runs-on: ubuntu-latest
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v6
+
+   - name: Build, Test OPENBLAS (Raspberry32)
+     uses: pguyot/arm-runner-action@v2
+     with:
+      cpu: arm1176
+      cpu_info: cpuinfo/raspberrypi_zero2_w
+      base_image: raspios_lite:2023-05-03
+      image_additional_mb: 1024
+      copy_artifact_path: j32
+      commands: |
+       apt-get install --no-install-recommends -y clang zip libomp-dev gdb
+       export CC=clang
+       script/openblas-make.sh raspberry armv6l || exit 1
+       touch jobdone
+
+   - name: Check Status (Raspberry32)
+     run: |
+      test -f jobdone || exit 1
+
+   - name: Release OPENBLAS (Raspberry32)
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -417,12 +453,11 @@ jobs:
    - name: Setup Environment (android)
      uses: nttld/setup-ndk@v1
      with:
-      ndk-version: r29
+      ndk-version: r24
       local-cache: false
 
    - name: Build OPENBLAS (android)
      env:
-      ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
       CC: clang
      run: |
       brew install automake
