@@ -43,6 +43,7 @@ jobs:
 # macOS ----------------------------------------------------------------
  openblasmacos:
   name: OPENBLAS (macOS)
+  if: ${{ false }}
   runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
@@ -172,13 +173,6 @@ jobs:
       run: |
        rm -f jobdone
        /sbin/ldconfig -r
-       ls -al ~/
-       ls -al ~/.ssh
-       echo "Host *" >>~/.ssh/config || true
-       echo " ServerAliveInterval 20" >>~/.ssh/config || true
-       echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
-       echo "client ssh config"
-       cat ~/.ssh/config || true
        export CC=clang
        ls -l /usr/local/bin/auto*
        export AUTOMAKE_VERSION=1.15
@@ -222,13 +216,6 @@ jobs:
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake nasm pcre2 libedit automake-1.15.1 libtool dit
        /sbin/ldconfig -r
-       ls -al ~/
-       ls -al ~/.ssh
-       sudo echo "Host *" >>~/.ssh/config || true
-       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
-       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
-       echo "client ssh config"
-       sudo cat ~/.ssh/config || true
        export CC=clang
        ls -l /usr/local/bin/auto*
        export AUTOMAKE_VERSION=1.15
@@ -273,13 +260,6 @@ jobs:
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake gmp pcre2 libedit automake-1.15.1 libtool git
        /sbin/ldconfig -r
-       ls -al ~/
-       ls -al ~/.ssh
-       sudo echo "Host *" >>~/.ssh/config || true
-       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
-       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
-       echo "client ssh config"
-       sudo cat ~/.ssh/config || true
        export CC=clang
        ls -l /usr/local/bin/auto*
        export AUTOMAKE_VERSION=1.15
@@ -324,13 +304,6 @@ jobs:
       run: |
        rm -f jobdone
        /sbin/ldconfig -r
-       ls -al ~/
-       ls -al ~/.ssh
-       echo "Host *" >>~/.ssh/config || true
-       echo " ServerAliveInterval 20" >>~/.ssh/config || true
-       echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
-       echo "client ssh config"
-       cat ~/.ssh/config || true
        export CC=clang
        script/openblas-make.sh freebsd || exit 1
        ls -l j64
@@ -374,13 +347,6 @@ jobs:
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool git
        /sbin/ldconfig -r
-       ls -al ~/
-       ls -al ~/.ssh
-       sudo echo "Host *" >>~/.ssh/config || true
-       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
-       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
-       echo "client ssh config"
-       sudo cat ~/.ssh/config || true
        export CC=clang
        script/openblas-make.sh freebsd || exit 1
        touch jobdone
@@ -423,13 +389,6 @@ jobs:
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake nasm pcre2 libedit automake libtool git
        /sbin/ldconfig -r
-       ls -al ~/
-       ls -al ~/.ssh
-       sudo echo "Host *" >>~/.ssh/config || true
-       sudo echo " ServerAliveInterval 20" >>~/.ssh/config || true
-       sudo echo " ServerAliveCountMax 2000000" >>~/.ssh/config || true
-       echo "client ssh config"
-       sudo cat ~/.ssh/config || true
        export CC=clang
        script/openblas-make.sh freebsd arm64 || exit 1
        touch jobdone
@@ -450,7 +409,7 @@ jobs:
 # android --------------------------------------------------------------
  openblasandroid:
   name: OPENBLAS (android)
-  runs-on: macos-15
+  runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
