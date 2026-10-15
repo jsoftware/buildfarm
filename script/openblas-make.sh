@@ -147,7 +147,7 @@ make \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     CC="$TOOLCHAIN"/bin/x86_64-linux-android24-clang \
-    AR="$TOOLCHAIN"/bin/x86_64-linux-android-ar \
+    AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
     ARM_SOFTFP_ABI=1 \
