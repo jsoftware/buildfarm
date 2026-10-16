@@ -776,7 +776,6 @@ jobs:
 # comment out any needs not used by the webhook
   needs:
    - oblinux
-   - oblinux32
    - obmacos
    - obmacosarm
    - obrpi64arm
