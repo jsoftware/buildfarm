@@ -463,7 +463,6 @@ jobs:
       AR: emar
       RANLIB: emranlib
       HOSTCC: emcc
-      AR: emar
      run: |
       script/openblas-make.sh wasm || exit 1
 
