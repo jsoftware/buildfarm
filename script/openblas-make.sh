@@ -20,7 +20,7 @@ $make \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=clang \
-    -j4 all libs netlib shared
+    -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas_32.${ext}
 }
 
@@ -34,7 +34,7 @@ $make \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=clang \
-    -j4 all libs netlib shared
+    -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas.${ext}
 }
 
@@ -48,7 +48,7 @@ $make \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=clang \
-    -j4 all libs netlib shared
+    -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-avx2.${ext}
 }
 
@@ -62,7 +62,7 @@ $make \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=clang \
-    -j4 all libs netlib shared
+    -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas.${ext}
 }
 
@@ -75,7 +75,7 @@ $make \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=gcc \
-    -j4 all libs netlib shared
+    -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas.${ext}
 }
 
@@ -92,7 +92,7 @@ $make \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
     ARM_SOFTFP_ABI=1 \
-    -j4 all libs netlib shared
+    -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-armv7.${ext}
 }
 
@@ -108,7 +108,7 @@ $make \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
-    -j4 all libs netlib shared
+    -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-armv8.${ext}
 }
 
@@ -124,7 +124,7 @@ $make \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
-    -j4 all libs netlib shared
+    -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-x86.${ext}
 }
 
@@ -142,7 +142,7 @@ $make \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
     ARM_SOFTFP_ABI=1 \
-    -j4 all libs netlib shared
+    -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-x64.${ext}
 }
 
@@ -157,8 +157,7 @@ $make \
     FIXED_LIBNAME=1 \
     CC=emcc AR=emar RANLIB=emranlib \
     USE_THREAD=0 \
-    HOSTCC=clang \
-    -j4 all libs netlib
+    -j4 libs netlib
 cp libopenblas.${ext} libs/libopenblas-wasm.${ext}
 }
 

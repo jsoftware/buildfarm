@@ -24,28 +24,28 @@ jobs:
  all:
   #if: false
   if: true
-  runs-on: ubuntu-22.04
+  runs-on: ubuntu-latest
   steps:
     - run: echo "Runall jobs"
 
  slow:
   if: false
   #if: true
-  runs-on: ubuntu-22.04
+  runs-on: ubuntu-latest
   steps:
     - run: echo "Run slow jobs"
 
  deprecated:
   if: false
   #if: true
-  runs-on: ubuntu-22.04
+  runs-on: ubuntu-latest
   steps:
     - run: echo "Run deprecated jobs"
 
  disabled:
   if: false
   #if: true
-  runs-on: ubuntu-22.04
+  runs-on: ubuntu-latest
   steps:
     - run: echo "Run disabled jobs"
 
@@ -622,6 +622,7 @@ jobs:
         mingw-w64-clang-x86_64-clang
         mingw-w64-clang-x86_64-lldb
         make
+        git
 
    - name: Build OPENBLAS (Windows MSYS2 x64 clang)
     # Run your build commands within the MSYS2 shell
@@ -664,6 +665,7 @@ jobs:
         mingw-w64-x86_64-gcc
         mingw-w64-x86_64-gdb
         make
+        git
 
    - name: Build OPENBLAS (Windows MSYS2 x64)
     # Run your build commands within the MSYS2 shell
@@ -706,6 +708,7 @@ jobs:
         mingw-w64-i686-gcc
         mingw-w64-i686-gdb
         make
+        git
 
    - name: Build OPENBLAS (Windows MSYS2 x86)
     # Run your build commands within the MSYS2 shell
@@ -747,6 +750,7 @@ jobs:
         mingw-w64-clang-aarch64-clang
         mingw-w64-clang-aarch64-lldb
         make
+        git
 
    - name: Build OPENBLAS (Windows MSYS2 arm64)
     # Run your build commands within the MSYS2 shell
