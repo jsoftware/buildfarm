@@ -517,7 +517,6 @@ jobs:
 
    - name: Build OPENBLAS (Windows 32)
      shell: cmd
-     env:
      run: |
       script\openblas-make.cmd x86
 
@@ -548,7 +547,6 @@ jobs:
 
    - name: Build OPENBLAS (Windows arm64 old)
      shell: cmd
-     env:
      run: |
       script\openblas-make.cmd arm64
 
@@ -579,7 +577,6 @@ jobs:
 
    - name: Build OPENBLAS (Windows arm64)
      shell: cmd
-     env:
      run: |
       script\openblas-make.cmd arm64
 
