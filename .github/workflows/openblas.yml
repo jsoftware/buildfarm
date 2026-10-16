@@ -24,28 +24,28 @@ jobs:
  all:
   #if: false
   if: true
-  runs-on: ubuntu-latest
+  runs-on: ubuntu-22.04
   steps:
     - run: echo "Runall jobs"
 
  slow:
   if: false
   #if: true
-  runs-on: ubuntu-latest
+  runs-on: ubuntu-22.04
   steps:
     - run: echo "Run slow jobs"
 
  deprecated:
   if: false
   #if: true
-  runs-on: ubuntu-latest
+  runs-on: ubuntu-22.04
   steps:
     - run: echo "Run deprecated jobs"
 
  disabled:
   if: false
   #if: true
-  runs-on: ubuntu-latest
+  runs-on: ubuntu-22.04
   steps:
     - run: echo "Run disabled jobs"
 
