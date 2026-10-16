@@ -606,6 +606,7 @@ jobs:
 # windows msys2 x64 clang ----------------------------------------------
  obwin-msys2-x64-clang:
   name: OPENBLAS (Windows MSYS2 x64 clang)
+  if: ${{ false }}
   needs: all
   runs-on: windows-2022
   steps:
@@ -630,6 +631,8 @@ jobs:
      env:
       CC: x86_64-w64-mingw32-clang
       CXX: x86_64-w64-mingw32-clang++
+      AR: x86_64-w64-mingw32-ar
+      RANLIB: x86_64-w64-mingw32-ranlib
       WINDRES: windres
       __MSYS__: 1
       _SSE4_2: 1
@@ -673,6 +676,8 @@ jobs:
      env:
       CC: x86_64-w64-mingw32-gcc
       CXX: x86_64-w64-mingw32-g++
+      AR: x86_64-w64-mingw32-ar
+      RANLIB: x86_64-w64-mingw32-ranlib
       WINDRES: windres
       __MSYS__: 1
       _SSE4_2: 1
@@ -716,6 +721,8 @@ jobs:
      env:
       CC: i686-w64-mingw32-gcc
       CXX: i686-w64-mingw32-g++
+      AR: i686-w64-mingw32-ar
+      RANLIB: i686-w64-mingw32-ranlib
       WINDRES: windres
       __MSYS__: 1
      run: |
@@ -758,6 +765,8 @@ jobs:
      env:
       CC: aarch64-w64-mingw32-clang
       CXX: aarch64-w64-mingw32-clang++
+      AR: aarch64-w64-mingw32-ar
+      RANLIB: aarch64-w64-mingw32-ranlib
       WINDRES: windres
       __MSYS__: 1
      run: |

@@ -157,6 +157,7 @@ $make \
     FIXED_LIBNAME=1 \
     CC=emcc AR=emar RANLIB=emranlib \
     USE_THREAD=0 \
+    HOSTCC=clang \
     -j4 libs netlib
 cp libopenblas.${ext} libs/libopenblas-wasm.${ext}
 }
@@ -231,10 +232,20 @@ elif [ "$1" = "freebsd" ]; then
 elif [ "$1" = "windows" ]; then
  make="${make:=make}"
  ext="dll"
- x86_64
- x86_64avx2
- cd libs
- zip ../../openblas-win.zip *
+ if [ "$2" = "x86_64" ]; then
+  x86_64
+  x86_64avx2
+  cd libs
+  zip ../../openblas-w64mw.zip *
+ elif [ "$2" = "i386" ]; then
+  x86
+  cd libs
+  zip ../../openblas-w32mw.zip *
+ else
+  arm64
+  cd libs
+  zip ../../openblas-warm64mv.zip *
+ fi
  cd -
 elif [ "$1" = "wasm" ]; then
  make="${make:=make}"
