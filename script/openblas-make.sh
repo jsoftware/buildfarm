@@ -23,7 +23,6 @@ $make \
     -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas_32.${ext}
 }
- all libs netlib shared
 
 x86_64() {
 ## This will build for x86_64 
