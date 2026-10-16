@@ -82,6 +82,7 @@ jobs:
 # macOS ----------------------------------------------------------------
  obmacos:
   name: OPENBLAS (macOS)
+  if: ${{ false }}
   needs: all
   runs-on: macos-15-intel
   steps:
@@ -114,6 +115,7 @@ jobs:
 # macOS arm64 ----------------------------------------------------------
  obmacosarm:
   name: OPENBLAS (macOS arm64)
+  if: ${{ false }}
   needs: all
   runs-on: macos-15
   steps:
@@ -243,6 +245,7 @@ jobs:
 # openbsd --------------------------------------------------------------
  obopenbsd:
   name: OPENBLAS (OpenBSD cross-platform-actions)
+  if: ${{ false }}
   needs: all
   runs-on: ubuntu-latest
   steps:
@@ -328,6 +331,7 @@ jobs:
 # freebsd --------------------------------------------------------------
  obfreebsd:
   name: OPENBLAS (FreeBSD cross-platform-actions)
+  if: ${{ false }}
   needs: all
   runs-on: ubuntu-latest
   steps:
@@ -495,10 +499,12 @@ jobs:
      shell: cmd
      env:
       CC: clang
+      AR: llvm-ar
+      RANLIB: llvm-ranlib
       HOSTCC: clang
       _SSE4_2: 1
      run: |
-      script\openblas-make.cmd x64
+      script\openblas-make-x64.cmd x64
 
    - name: Release OPENBLAS (Windows)
      if: ${{ env.RELEASE == 'true' }}
@@ -513,7 +519,6 @@ jobs:
 # windows 32bit --------------------------------------------------------
  obwin32:
   name: OPENBLAS (Windows 32)
-  if: ${{ false }}
   needs: all
   runs-on: windows-2022
   steps:
@@ -529,9 +534,11 @@ jobs:
      shell: cmd
      env:
       CC: clang
+      AR: llvm-ar
+      RANLIB: llvm-ranlib
       HOSTCC: clang
      run: |
-      script\openblas-make.cmd x86
+      script\openblas-make-x86.cmd x86
 
    - name: Release OPENBLAS (Windows 32)
      if: ${{ env.RELEASE == 'true' }}
@@ -562,9 +569,11 @@ jobs:
      shell: cmd
      env:
       CC: clang
+      AR: llvm-ar
+      RANLIB: llvm-ranlib
       HOSTCC: clang
      run: |
-      script\openblas-make.cmd arm64
+      script\openblas-make-arm64.cmd arm64
 
    - name: Release OPENBLAS (Windows arm64 old)
      if: ${{ false }}
@@ -579,7 +588,6 @@ jobs:
 # windows arm64 --------------------------------------------------------
  obwinarm64:
   name: OPENBLAS (Windows arm64)
-  if: ${{ false }}
   needs: all
   runs-on: windows-11-arm
   steps:
@@ -595,9 +603,11 @@ jobs:
      shell: cmd
      env:
       CC: clang
+      AR: llvm-ar
+      RANLIB: llvm-ranlib
       HOSTCC: clang
      run: |
-      script\openblas-make.cmd arm64
+      script\openblas-make-arm64.cmd arm64
 
    - name: Release OPENBLAS (Windows arm64)
      if: ${{ env.RELEASE == 'true' }}
@@ -673,6 +683,7 @@ jobs:
 # windows msys2 x64 ----------------------------------------------------
  obwin-msys2-x64:
   name: OPENBLAS (Windows MSYS2 x64)
+  if: ${{ false }}
   needs: all
   runs-on: windows-2022
   steps:
@@ -720,6 +731,7 @@ jobs:
 # windows msys2 x86 ----------------------------------------------------
  obwin-msys2-x86:
   name: OPENBLAS (Windows MSYS2 x86)
+  if: ${{ false }}
   needs: all
   runs-on: windows-2022
   steps:
@@ -766,6 +778,7 @@ jobs:
 # windows msys2 arm64 --------------------------------------------------
  obwin-msys2-arm64:
   name: OPENBLAS (Windows MSYS2 arm64)
+  if: ${{ false }}
   needs: all
   runs-on: windows-11-arm
   steps:
