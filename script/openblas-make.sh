@@ -15,28 +15,27 @@ x86() {
 $make clean
 $make \
     TARGET=BULLDOZER BINARY=32\
-    BUILD_TESTING=0 \
     NO_STATIC=1 \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=clang \
-    -j4
+    -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas_32.${ext}
 }
+ all libs netlib shared
 
 x86_64() {
 ## This will build for x86_64 
 $make clean
 $make \
     TARGET=NEHALEM BINARY=64\
-    BUILD_TESTING=0 \
     NO_STATIC=1 \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=clang \
-    -j4
+    -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas.${ext}
 }
 
@@ -45,13 +44,12 @@ x86_64avx2() {
 $make clean
 $make \
     TARGET=HASWELL BINARY=64\
-    BUILD_TESTING=0 \
     NO_STATIC=1 \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=clang \
-    -j4
+    -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-avx2.${ext}
 }
 
@@ -60,13 +58,12 @@ arm64() {
 $make clean
 $make \
     TARGET=CORTEXA57 BINARY=64\
-    BUILD_TESTING=0 \
     NO_STATIC=1 \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=clang \
-    -j4
+    -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas.${ext}
 }
 
@@ -74,13 +71,12 @@ rpi32() {
 $make clean
 $make \
     TARGET=ARMV6 BINARY=32 \
-    BUILD_TESTING=0 \
     NO_STATIC=1 \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
     HOSTCC=gcc \
-    -j4
+    -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas.${ext}
 }
 
@@ -88,7 +84,6 @@ android_armv7() {
 $make clean
 $make \
     TARGET=ARMV7 BINARY=32 \
-    BUILD_TESTING=0 \
     NO_STATIC=1 \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
@@ -98,7 +93,7 @@ $make \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
     ARM_SOFTFP_ABI=1 \
-    -j4
+    -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-armv7.${ext}
 }
 
@@ -106,7 +101,6 @@ android_armv8() {
 $make clean
 $make \
     TARGET=CORTEXA57 BINARY=64 \
-    BUILD_TESTING=0 \
     NO_STATIC=1 \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
@@ -115,7 +109,7 @@ $make \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
-    -j4
+    -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-armv8.${ext}
 }
 
@@ -123,7 +117,6 @@ android_x86() {
 $make clean
 $make \
     TARGET=ATOM BINARY=32\
-    BUILD_TESTING=0 \
     NO_STATIC=1 \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
@@ -132,7 +125,7 @@ $make \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
-    -j4
+    -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-x86.${ext}
 }
 
@@ -141,7 +134,6 @@ android_x64() {
 $make clean
 $make \
     TARGET=ATOM BINARY=64\
-    BUILD_TESTING=0 \
     NO_STATIC=1 \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
@@ -151,8 +143,24 @@ $make \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
     HOSTCC=clang \
     ARM_SOFTFP_ABI=1 \
-    -j4
+    -j4 all libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-x64.${ext}
+}
+
+# Portable default (SIMD128 only)
+wasm32() {
+$make clean
+$make \
+    TARGET=WASM128_GENERIC BINARY=32\
+    NO_STATIC=0 \
+    NO_LAPACKE=1 \
+    NOFORTRAN=1 \
+    FIXED_LIBNAME=1 \
+    CC=emcc AR=emar RANLIB=emranlib \
+    USE_THREAD=0 \
+    HOSTCC=clang \
+    -j4 all libs netlib
+cp libopenblas.${ext} libs/libopenblas-wasm.${ext}
 }
 
 mkdir -p OpenBLAS/libs
@@ -223,9 +231,20 @@ elif [ "$1" = "freebsd" ]; then
  zip ../../openblas-fbsd.zip *
  cd -
 elif [ "$1" = "windows" ]; then
+ make="${make:=make}"
  ext="dll"
+ x86_64
+ x86_64avx2
+ cd libs
+ zip ../../openblas-win.zip *
+ cd -
 elif [ "$1" = "wasm" ]; then
- ext=""
+ make="${make:=make}"
+ ext="a"
+ wasm32
+ cd libs
+ zip ../../openblas-wasm.zip *
+ cd -
 else
  echo "argument is linux|windows|darwin|raspberry|android|openbsd|freebsd|wasm"
  exit 1

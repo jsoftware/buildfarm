@@ -12,11 +12,48 @@ on:
 
 # if: ${{ false }}
 
+env:
+ RELEASE: ${{ true }}
+ WEBHOOK: ${{ false }}
+
 jobs:
 
+# to run all jobs, enable all
+# for selected jobs, disable all and disable the selected needs
+
+ all:
+  #if: false
+  if: true
+  runs-on: ubuntu-latest
+  steps:
+    - run: echo "Runall jobs"
+
+ slow:
+  if: false
+  #if: true
+  runs-on: ubuntu-latest
+  steps:
+    - run: echo "Run slow jobs"
+
+ deprecated:
+  if: false
+  #if: true
+  runs-on: ubuntu-latest
+  steps:
+    - run: echo "Run deprecated jobs"
+
+ disabled:
+  if: false
+  #if: true
+  runs-on: ubuntu-latest
+  steps:
+    - run: echo "Run disabled jobs"
+
+
 # linux ----------------------------------------------------------------
- openblaslinux:
+ oblinux:
   name: OPENBLAS (Linux)
+  needs: all
   runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
@@ -32,6 +69,7 @@ jobs:
       script/openblas-make.sh linux || exit 1
 
    - name: Release OPENBLAS (Linux)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -41,9 +79,9 @@ jobs:
       replacesArtifacts: true
 
 # macOS ----------------------------------------------------------------
- openblasmacos:
+ obmacos:
   name: OPENBLAS (macOS)
-  if: ${{ false }}
+  needs: all
   runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
@@ -62,6 +100,7 @@ jobs:
       script/openblas-make.sh darwin x86_64 || exit 1
 
    - name: Release OPENBLAS (macOS)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -71,8 +110,9 @@ jobs:
       replacesArtifacts: true
 
 # macOS arm64 ----------------------------------------------------------
- openblasmacosarm:
+ obmacosarm:
   name: OPENBLAS (macOS arm64)
+  needs: all
   runs-on: macos-15
   steps:
    - name: Checkout Git repository
@@ -91,6 +131,7 @@ jobs:
       script/openblas-make.sh darwin arm64 || exit 1
 
    - name: Release OPENBLAS (macOS arm64)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -100,8 +141,9 @@ jobs:
       replacesArtifacts: true
 
 # rpi64arm -------------------------------------------------------------
- openblasrpi64arm:
+ obrpi64arm:
   name: OPENBLAS (Linux arm64)
+  needs: all
   runs-on: ubuntu-24.04-arm
   steps:
    - name: Checkout Git repository
@@ -117,6 +159,7 @@ jobs:
       script/openblas-make.sh raspberry arm64 || exit 1
 
    - name: Release OPENBLAS (Linux arm64)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -126,8 +169,9 @@ jobs:
       replacesArtifacts: true
 
 # rpi32arm -------------------------------------------------------------
- openblasrpi32arm:
+ obrpi32arm:
   name: OPENBLAS (Linux arm32)
+  needs: all
   runs-on: ubuntu-24.04-arm
   steps:
    - name: Checkout Git repository
@@ -143,6 +187,7 @@ jobs:
       script/openblas-make.sh raspberry armv6l || exit 1
 
    - name: Release OPENBLAS (Linux arm32)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -152,15 +197,16 @@ jobs:
       replacesArtifacts: true
 
 # rpi32 ----------------------------------------------------------------
- openblaserpi32:
+ oberpi32:
   name: OPENBLAS (Raspberry32)
   if: ${{ false }}
+  needs: all
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v6
 
-   - name: Build, Test OPENBLAS (Raspberry32)
+   - name: Build OPENBLAS (Raspberry32)
      uses: pguyot/arm-runner-action@v2
      with:
       cpu: arm1176
@@ -180,6 +226,7 @@ jobs:
       test -f jobdone || exit 1
 
    - name: Release OPENBLAS (Raspberry32)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -189,8 +236,9 @@ jobs:
       replacesArtifacts: true
 
 # openbsd --------------------------------------------------------------
- openblasopenbsd:
+ obopenbsd:
   name: OPENBLAS (OpenBSD cross-platform-actions)
+  needs: all
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
@@ -219,6 +267,7 @@ jobs:
       test -f jobdone || exit 1
 
    - name: Release OPENBLAS (OpenBSD)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -228,15 +277,16 @@ jobs:
       replacesArtifacts: true
 
 # openbsd arm64 --------------------------------------------------------
- openblasopenbsdarm64:
+ obopenbsdarm64:
   name: OPENBLAS (OpenBSD arm64)
   if: ${{ false }}
+  needs: all
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
      uses: actions/checkout@v4
 
-   - name: Build, Test OPENBLAS (OpenBSD arm64)
+   - name: Build OPENBLAS (OpenBSD arm64)
      uses: cross-platform-actions/action@v1.3.0
      with:
       operating_system: openbsd
@@ -261,6 +311,7 @@ jobs:
       test -f jobdone || exit 1
 
    - name: Release OPENBLAS (OpenBSD arm64)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -270,8 +321,9 @@ jobs:
       replacesArtifacts: true
 
 # freebsd --------------------------------------------------------------
- openblasfreebsd:
+ obfreebsd:
   name: OPENBLAS (FreeBSD cross-platform-actions)
+  needs: all
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
@@ -301,6 +353,7 @@ jobs:
       test -f jobdone || exit 1
 
    - name: Release OPENBLAS (FreeBSD)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -310,9 +363,10 @@ jobs:
       replacesArtifacts: true
 
 # freebsdarm64  --------------------------------------------------------
- openblasfreebsdarm64:
+ obfreebsdarm64:
   name: OPENBLAS (FreeBSD arm64)
   if: ${{ false }}
+  needs: all
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
@@ -342,6 +396,7 @@ jobs:
       test -f jobdone || exit 1
 
    - name: Release OPENBLAS (FreeBSD arm64)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -351,8 +406,9 @@ jobs:
       replacesArtifacts: true
 
 # android --------------------------------------------------------------
- openblasandroid:
+ obandroid:
   name: OPENBLAS (android)
+  needs: all
   runs-on: macos-15
   steps:
    - name: Checkout Git repository
@@ -374,6 +430,7 @@ jobs:
       script/openblas-make.sh android || exit 1
 
    - name: Release OPENBLAS (android)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -383,9 +440,9 @@ jobs:
       replacesArtifacts: true
 
 # wasm -----------------------------------------------------------------
- openblaswasm:
+ obwasm:
   name: OPENBLAS (wasm)
-  if: ${{ false }}
+  needs: all
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
@@ -397,12 +454,12 @@ jobs:
    - name: Build OPENBLAS (wasm)
      env:
       CC: emcc
+      AR: emar
      run: |
       script/openblas-make.sh wasm || exit 1
-      ls -l j32
-      zip -r openblas-wasm32.zip j32
 
    - name: Release OPENBLAS (wasm)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -411,47 +468,109 @@ jobs:
       allowUpdates: true
       replacesArtifacts: true
 
-# windows x64 ----------------------------------------------------------
- openblaswinx64:
-  name: OPENBLAS (Windows x64)
+# windows --------------------------------------------------------------
+ obwin:
+  name: OPENBLAS (Windows)
   if: ${{ false }}
+  needs: all
   runs-on: windows-2022
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v4
+     uses: actions/checkout@v6
 
-   - name: Setup Environment (Windows x64)
+   - name: Setup Environment (Windows)
      uses: ilammy/msvc-dev-cmd@v1
      with:
       arch: amd64
 
-   - name: Build OPENBLAS (Windows x64)
+   - name: Build OPENBLAS (Windows)
      shell: cmd
+     env:
+      _SSE4_2: 1
      run: |
       script\openblas-make.cmd x64
 
-   - name: Compress Files (Windows x64)
-     run: |
-      dir x64
-      zip -r openblas-x64.zip x64
-
-   - name: Release OPENBLAS (Windows x64)
+   - name: Release OPENBLAS (Windows)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
-      artifacts: "openblas-x64.zip"
+      artifacts: "openblas-w64.zip"
       token: ${{ secrets.GITHUB_TOKEN }}
       allowUpdates: true
       replacesArtifacts: true
 
-# windows arm64 --------------------------------------------------------------
- openblaswinarm64:
-  name: OPENBLAS (Windows arm64)
+# windows 32bit --------------------------------------------------------
+ obwin32:
+  name: OPENBLAS (Windows 32)
   if: ${{ false }}
+  needs: all
   runs-on: windows-2022
   steps:
    - name: Checkout Git repository
-     uses: actions/checkout@v4
+     uses: actions/checkout@v6
+
+   - name: Setup Environment (Windows 32)
+     uses: ilammy/msvc-dev-cmd@v1
+     with:
+      arch: x86
+
+   - name: Build OPENBLAS (Windows 32)
+     shell: cmd
+     env:
+     run: |
+      script\openblas-make.cmd x86
+
+   - name: Release OPENBLAS (Windows 32)
+     if: ${{ env.RELEASE == 'true' }}
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-w32.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows arm64 old ----------------------------------------------------
+ obwinarm64old:
+  name: OPENBLAS (Windows arm64 old)
+  if: ${{ false }}
+  needs: [all, deprecated]
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v6
+
+   - name: Setup Environment (Windows arm64) old
+     uses: ilammy/msvc-dev-cmd@v1
+     with:
+      arch: amd64_arm64
+
+   - name: Build OPENBLAS (Windows arm64 old)
+     shell: cmd
+     env:
+     run: |
+      script\openblas-make.cmd arm64
+
+   - name: Release OPENBLAS (Windows arm64 old)
+     if: ${{ false }}
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-warm64old.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows arm64 --------------------------------------------------------
+ obwinarm64:
+  name: OPENBLAS (Windows arm64)
+  if: ${{ false }}
+  needs: all
+  runs-on: windows-11-arm
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v6
 
    - name: Setup Environment (Windows arm64)
      uses: ilammy/msvc-dev-cmd@v1
@@ -460,15 +579,12 @@ jobs:
 
    - name: Build OPENBLAS (Windows arm64)
      shell: cmd
+     env:
      run: |
       script\openblas-make.cmd arm64
 
-   - name: Compress Files (Windows arm64)
-     run: |
-      dir arm64
-      zip -r openblas-warm64.zip arm64
-
    - name: Release OPENBLAS (Windows arm64)
+     if: ${{ env.RELEASE == 'true' }}
      uses: ncipollo/release-action@v1
      with:
       tag: build
@@ -477,15 +593,213 @@ jobs:
       allowUpdates: true
       replacesArtifacts: true
 
+
+      # Name        Prefix       Toolchain  Architecture  C Library C++ Library
+      # MSYS        /usr         gcc        x86_64        cygwin    libstdc++
+      # UCRT64      /ucrt64      gcc        x86_64        ucrt      libstdc++
+      # CLANG64     /clang64     llvm       x86_64        ucrt      libc++
+      # CLANGARM64  /clangarm64  llvm       aarch64       ucrt      libc++
+      # MINGW64     /mingw64     gcc        x86_64        msvcrt    libstdc++
+      # { sys: mingw64, env: x86_64 }
+      # { sys: mingw32, env: i686 }
+      # { sys: ucrt64,  env: ucrt-x86_64 }
+      # { sys: clang64, env: clang-x86_64 }
+      # { sys: clang64arm, env: clang-aarch64 }
+
+# windows msys2 x64 clang ----------------------------------------------
+ obwin-msys2-x64-clang:
+  name: OPENBLAS (Windows MSYS2 x64 clang)
+  needs: all
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v6
+
+   - name: Setup Environment (Windows MSYS2 x64 clang)
+     uses: msys2/setup-msys2@v2
+     with:
+      msystem: CLANG64
+      update: true
+      # Install necessary packages (e.g., your build tools, gcc, make)
+      install: >-
+        mingw-w64-clang-x86_64-clang
+        mingw-w64-clang-x86_64-lldb
+        make
+
+   - name: Build OPENBLAS (Windows MSYS2 x64 clang)
+    # Run your build commands within the MSYS2 shell
+     shell: msys2 {0}
+     env:
+      CC: x86_64-w64-mingw32-clang
+      CXX: x86_64-w64-mingw32-clang++
+      WINDRES: windres
+      __MSYS__: 1
+      _SSE4_2: 1
+     run: |
+      script/openblas-make.sh windows x86_64 || exit 1
+
+   - name: Release OPENBLAS (Windows MSYS2 x64 clang)
+     if: ${{ env.RELEASE == 'true' }}
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-w64mwc.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows msys2 x64 ----------------------------------------------------
+ obwin-msys2-x64:
+  name: OPENBLAS (Windows MSYS2 x64)
+  needs: all
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v6
+
+   - name: Setup Environment (Windows MSYS2 x64)
+     uses: msys2/setup-msys2@v2
+     with:
+      msystem: MINGW64
+      update: true
+      # Install necessary packages (e.g., your build tools, gcc, make)
+      install: >-
+        mingw-w64-x86_64-gcc
+        mingw-w64-x86_64-gdb
+        make
+
+   - name: Build OPENBLAS (Windows MSYS2 x64)
+    # Run your build commands within the MSYS2 shell
+     shell: msys2 {0}
+     env:
+      CC: x86_64-w64-mingw32-gcc
+      CXX: x86_64-w64-mingw32-g++
+      WINDRES: windres
+      __MSYS__: 1
+      _SSE4_2: 1
+     run: |
+      script/openblas-make.sh windows x86_64 || exit 1
+
+   - name: Release OPENBLAS (Windows MSYS2 x64)
+     if: ${{ env.RELEASE == 'true' }}
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-w64mw.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows msys2 x86 ----------------------------------------------------
+ obwin-msys2-x86:
+  name: OPENBLAS (Windows MSYS2 x86)
+  needs: all
+  runs-on: windows-2022
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v6
+
+   - name: Setup Environment (Windows MSYS2 x86)
+     uses: msys2/setup-msys2@v2
+     with:
+      msystem: MINGW32
+      update: true
+      # Install necessary packages (e.g., your build tools, gcc, make)
+      install: >-
+        mingw-w64-i686-gcc
+        mingw-w64-i686-gdb
+        make
+
+   - name: Build OPENBLAS (Windows MSYS2 x86)
+    # Run your build commands within the MSYS2 shell
+     shell: msys2 {0}
+     env:
+      CC: i686-w64-mingw32-gcc
+      CXX: i686-w64-mingw32-g++
+      WINDRES: windres
+      __MSYS__: 1
+     run: |
+      script/openblas-make.sh windows i386 || exit 1
+
+   - name: Release OPENBLAS (Windows MSYS2 x86)
+     if: ${{ env.RELEASE == 'true' }}
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-w32mw.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
+# windows msys2 arm64 --------------------------------------------------
+ obwin-msys2-arm64:
+  name: OPENBLAS (Windows MSYS2 arm64)
+  needs: all
+  runs-on: windows-11-arm
+  steps:
+   - name: Checkout Git repository
+     uses: actions/checkout@v6
+
+   - name: Setup Environment (Windows MSYS2 arm64)
+     uses: msys2/setup-msys2@v2
+     with:
+      msystem: CLANGARM64
+      update: true
+      # Install necessary packages (e.g., your build tools, gcc, make)
+      install: >-
+        mingw-w64-clang-aarch64-clang
+        mingw-w64-clang-aarch64-lldb
+        make
+
+   - name: Build OPENBLAS (Windows MSYS2 arm64)
+    # Run your build commands within the MSYS2 shell
+     shell: msys2 {0}
+     env:
+      CC: aarch64-w64-mingw32-clang
+      CXX: aarch64-w64-mingw32-clang++
+      WINDRES: windres
+      __MSYS__: 1
+     run: |
+      script/openblas-make.sh windows arm64 || exit 1
+
+   - name: Release OPENBLAS (Windows MSYS2 arm64)
+     if: ${{ env.RELEASE == 'true' }}
+     uses: ncipollo/release-action@v1
+     with:
+      tag: build
+      artifacts: "openblas-warm64mw.zip"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      allowUpdates: true
+      replacesArtifacts: true
+
  webhook:
   name: Run Webhook
   runs-on: ubuntu-latest
-  needs: [openblaslinux, openblasmacos, openblasmacosarm, openblasrpi64arm, openblasrpi32arm, openblasfreebsd, openblasopenbsd]
+# this needs is also in tests above
+# comment out any needs not used by the webhook
+  needs:
+   - oblinux
+   - oblinux32
+   - obmacos
+   - obmacosarm
+   - obrpi64arm
+   - obrpi32arm
+   - obwin
+   - obwin32
+   - obwinarm64
+   - obandroid
+   - obwasm
+   - obfreebsd
+   - obopenbsd
+   - obwin-msys2-x64-clang
+   - obwin-msys2-x64
+   - obwin-msys2-x86
+   - obwin-msys2-arm64
   steps:
    - name: update server
-     if: ${{ false }}
+     if: ${{ env.WEBHOOK == 'true' }}
      uses: distributhor/workflow-webhook@v2
      env:
       webhook_url: ${{ secrets.WEBHOOK_URL }}
       webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-      data: '{ "id": "openblasbuild" }'
+      data: '{ "id": "obbuild" }'
