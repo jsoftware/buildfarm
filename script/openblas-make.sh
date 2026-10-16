@@ -19,7 +19,6 @@ $make \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
-    HOSTCC=clang \
     -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas_32.${ext}
 }
@@ -33,7 +32,6 @@ $make \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
-    HOSTCC=clang \
     -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas.${ext}
 }
@@ -47,7 +45,6 @@ $make \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
-    HOSTCC=clang \
     -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-avx2.${ext}
 }
@@ -61,7 +58,6 @@ $make \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
-    HOSTCC=clang \
     -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas.${ext}
 }
@@ -90,7 +86,6 @@ $make \
     CC="$TOOLCHAIN"/bin/armv7a-linux-androideabi24-clang \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
-    HOSTCC=clang \
     ARM_SOFTFP_ABI=1 \
     -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-armv7.${ext}
@@ -107,7 +102,6 @@ $make \
     CC="$TOOLCHAIN"/bin/aarch64-linux-android24-clang \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
-    HOSTCC=clang \
     -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-armv8.${ext}
 }
@@ -123,7 +117,6 @@ $make \
     CC="$TOOLCHAIN"/bin/i686-linux-android24-clang \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
-    HOSTCC=clang \
     -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-x86.${ext}
 }
@@ -140,7 +133,6 @@ $make \
     CC="$TOOLCHAIN"/bin/x86_64-linux-android24-clang \
     AR="$TOOLCHAIN"/bin/llvm-ar \
     RANLIB="$TOOLCHAIN"/bin/llvm-ranlib \
-    HOSTCC=clang \
     ARM_SOFTFP_ABI=1 \
     -j4 libs netlib shared
 cp libopenblas.${ext} libs/libopenblas-x64.${ext}
@@ -155,9 +147,7 @@ $make \
     NO_LAPACKE=1 \
     NOFORTRAN=1 \
     FIXED_LIBNAME=1 \
-    CC=emcc AR=emar RANLIB=emranlib \
     USE_THREAD=0 \
-    HOSTCC=clang \
     -j4 libs netlib
 cp libopenblas.${ext} libs/libopenblas-wasm.${ext}
 }

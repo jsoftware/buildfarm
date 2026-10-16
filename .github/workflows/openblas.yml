@@ -65,6 +65,7 @@ jobs:
    - name: Build OPENBLAS (Linux)
      env:
       CC: clang
+      HOSTCC: clang
      run: |
       script/openblas-make.sh linux || exit 1
 
@@ -96,6 +97,7 @@ jobs:
    - name: Build OPENBLAS (macOS)
      env:
       CC: clang
+      HOSTCC: clang
      run: |
       script/openblas-make.sh darwin x86_64 || exit 1
 
@@ -127,6 +129,7 @@ jobs:
    - name: Build OPENBLAS (macOS arm64)
      env:
       CC: clang
+      HOSTCC: clang
      run: |
       script/openblas-make.sh darwin arm64 || exit 1
 
@@ -155,6 +158,7 @@ jobs:
    - name: Build OPENBLAS (Linux arm64)
      env:
       CC: clang
+      HOSTCC: clang
      run: |
       script/openblas-make.sh raspberry arm64 || exit 1
 
@@ -183,6 +187,7 @@ jobs:
    - name: Build OPENBLAS (Linux arm32)
      env:
       CC: arm-linux-gnueabihf-gcc
+      HOSTCC: clang
      run: |
       script/openblas-make.sh raspberry armv6l || exit 1
 
@@ -423,6 +428,7 @@ jobs:
    - name: Build OPENBLAS (android)
      env:
       CC: clang
+      HOSTCC: clang
      run: |
       brew install automake
       brew install libtool
@@ -455,6 +461,9 @@ jobs:
      env:
       CC: emcc
       AR: emar
+      RANLIB: emranlib
+      HOSTCC: emcc
+      AR: emar
      run: |
       script/openblas-make.sh wasm || exit 1
 
@@ -486,6 +495,8 @@ jobs:
    - name: Build OPENBLAS (Windows)
      shell: cmd
      env:
+      CC: clang
+      HOSTCC: clang
       _SSE4_2: 1
      run: |
       script\openblas-make.cmd x64
@@ -517,6 +528,9 @@ jobs:
 
    - name: Build OPENBLAS (Windows 32)
      shell: cmd
+     env:
+      CC: clang
+      HOSTCC: clang
      run: |
       script\openblas-make.cmd x86
 
@@ -547,6 +561,9 @@ jobs:
 
    - name: Build OPENBLAS (Windows arm64 old)
      shell: cmd
+     env:
+      CC: clang
+      HOSTCC: clang
      run: |
       script\openblas-make.cmd arm64
 
@@ -577,6 +594,9 @@ jobs:
 
    - name: Build OPENBLAS (Windows arm64)
      shell: cmd
+     env:
+      CC: clang
+      HOSTCC: clang
      run: |
       script\openblas-make.cmd arm64
 
@@ -631,6 +651,7 @@ jobs:
      env:
       CC: x86_64-w64-mingw32-clang
       CXX: x86_64-w64-mingw32-clang++
+      HOSTCC: x86_64-w64-mingw32-clang
       AR: x86_64-w64-mingw32-ar
       RANLIB: x86_64-w64-mingw32-ranlib
       WINDRES: windres
@@ -676,6 +697,7 @@ jobs:
      env:
       CC: x86_64-w64-mingw32-gcc
       CXX: x86_64-w64-mingw32-g++
+      HOSTCC: x86_64-w64-mingw32-gcc
       AR: x86_64-w64-mingw32-ar
       RANLIB: x86_64-w64-mingw32-ranlib
       WINDRES: windres
@@ -721,6 +743,7 @@ jobs:
      env:
       CC: i686-w64-mingw32-gcc
       CXX: i686-w64-mingw32-g++
+      HOSTCC: i686-w64-mingw32-gcc
       AR: i686-w64-mingw32-ar
       RANLIB: i686-w64-mingw32-ranlib
       WINDRES: windres
@@ -765,6 +788,7 @@ jobs:
      env:
       CC: aarch64-w64-mingw32-clang
       CXX: aarch64-w64-mingw32-clang++
+      HOSTCC: aarch64-w64-mingw32-clang
       AR: aarch64-w64-mingw32-ar
       RANLIB: aarch64-w64-mingw32-ranlib
       WINDRES: windres
