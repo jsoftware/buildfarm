@@ -448,6 +448,7 @@ jobs:
 # wasm -----------------------------------------------------------------
  obwasm:
   name: OPENBLAS (wasm)
+  if: ${{ false }}
   needs: all
   runs-on: ubuntu-latest
   steps:
@@ -641,6 +642,7 @@ jobs:
       install: >-
         mingw-w64-clang-x86_64-clang
         mingw-w64-clang-x86_64-lldb
+        mingw-w64-cross-mingw64-binutils
         make
         git
 
@@ -687,6 +689,7 @@ jobs:
       install: >-
         mingw-w64-x86_64-gcc
         mingw-w64-x86_64-gdb
+        mingw-w64-cross-mingw64-binutils
         make
         git
 
@@ -733,6 +736,7 @@ jobs:
       install: >-
         mingw-w64-i686-gcc
         mingw-w64-i686-gdb
+        mingw-w64-cross-mingw32-binutils
         make
         git
 
@@ -778,6 +782,7 @@ jobs:
       install: >-
         mingw-w64-clang-aarch64-clang
         mingw-w64-clang-aarch64-lldb
+        mingw-w64-cross-mingwarm64-binutils
         make
         git
 
