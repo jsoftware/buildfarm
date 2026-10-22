@@ -15,7 +15,7 @@ on:
 env:
  RELEASE: ${{ true }}
  WEBHOOK: ${{ false }}
- MAKETARGET: "libs netlib shared"
+ MAKETARGET: libs netlib shared
 # MAKETARGET: all
 
 jobs:
@@ -231,7 +231,7 @@ jobs:
       commands: |
        apt-get update -y
        apt-get install --no-install-recommends -y clang zip git
-       export MAKETARGET=${{ env.MAKETARGET }}
+       export MAKETARGET="${{ env.MAKETARGET }}"
        export CC=clang
        script/openblas-make.sh raspberry armv6l || exit 1
 
@@ -267,7 +267,7 @@ jobs:
        sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake git
-       export MAKETARGET=${{ env.MAKETARGET }}
+       export MAKETARGET="${{ env.MAKETARGET }}"
        export CC=clang
        script/openblas-make.sh openbsd || exit 1
 
@@ -304,7 +304,7 @@ jobs:
        sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake git
-       export MAKETARGET=${{ env.MAKETARGET }}
+       export MAKETARGET="${{ env.MAKETARGET }}"
        export CC=clang
        script/openblas-make.sh openbsd arm64 || exit 1
 
@@ -341,7 +341,7 @@ jobs:
        sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake git
-       export MAKETARGET=${{ env.MAKETARGET }}
+       export MAKETARGET="${{ env.MAKETARGET }}"
        export CC=clang
        script/openblas-make.sh freebsd || exit 1
 
@@ -379,7 +379,7 @@ jobs:
        sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
        sudo pkg install -y curl wget zip gmake git
-       export MAKETARGET=${{ env.MAKETARGET }}
+       export MAKETARGET="${{ env.MAKETARGET }}"
        export CC=clang
        script/openblas-make.sh freebsd arm64 || exit 1
 
