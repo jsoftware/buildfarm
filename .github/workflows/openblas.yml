@@ -669,7 +669,7 @@ jobs:
       _SSE4_2: 1
      run: |
       which $CC
-      which $AR
+      ls /clang64/bin/
       which $RANLIB
       script/openblas-make.sh windows x86_64 || exit 1
 
@@ -720,7 +720,6 @@ jobs:
       _SSE4_2: 1
      run: |
       which $CC
-      which $AR
       which $RANLIB
       script/openblas-make.sh windows x86_64 || exit 1
 
@@ -769,7 +768,7 @@ jobs:
       __MSYS__: 1
      run: |
       which $CC
-      which $AR
+      ls /mingw32/bin/
       which $RANLIB
       script/openblas-make.sh windows i386 || exit 1
 
@@ -818,7 +817,7 @@ jobs:
       __MSYS__: 1
      run: |
       which $CC
-      which $AR
+      ls /clangarm64/bin/
       which $RANLIB
       script/openblas-make.sh windows arm64 || exit 1
 
