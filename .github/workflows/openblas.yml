@@ -15,7 +15,7 @@ on:
 env:
  RELEASE: ${{ true }}
  WEBHOOK: ${{ false }}
- MAKETARGET: libs netlib shared
+ MAKETARGET: "libs netlib shared"
 # MAKETARGET: all
 
 jobs:
