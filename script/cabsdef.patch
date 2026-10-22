@@ -1,0 +1,7 @@
+
+#if defined(__OpenBSD__) || defined(__FreeBSD__)
+#undef cabs
+#undef cabsf
+#define cabs(z) _cabs(z)
+#define cabsf(z) _cabsf(z)
+#endif 
