@@ -15,6 +15,7 @@ on:
 env:
  RELEASE: ${{ true }}
  WEBHOOK: ${{ false }}
+ LAPACK-TEST:
 
 jobs:
 
@@ -64,6 +65,7 @@ jobs:
 
    - name: Build OPENBLAS (Linux)
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -97,6 +99,7 @@ jobs:
 
    - name: Build OPENBLAS (macOS)
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -130,6 +133,7 @@ jobs:
 
    - name: Build OPENBLAS (macOS arm64)
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -159,6 +163,7 @@ jobs:
 
    - name: Build OPENBLAS (Linux arm64)
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -188,6 +193,7 @@ jobs:
 
    - name: Build OPENBLAS (Linux arm32)
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: arm-linux-gnueabihf-gcc
       HOSTCC: clang
      run: |
@@ -429,6 +435,7 @@ jobs:
 
    - name: Build OPENBLAS (android)
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -462,6 +469,7 @@ jobs:
 
    - name: Build OPENBLAS (wasm)
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: emcc
       AR: emar
       RANLIB: emranlib
@@ -497,6 +505,7 @@ jobs:
    - name: Build OPENBLAS (Windows)
      shell: cmd
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: clang
       AR: llvm-ar
       RANLIB: llvm-ranlib
@@ -533,6 +542,7 @@ jobs:
    - name: Build OPENBLAS (Windows 32)
      shell: cmd
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: clang
       AR: llvm-ar
       RANLIB: llvm-ranlib
@@ -568,6 +578,7 @@ jobs:
    - name: Build OPENBLAS (Windows arm64 old)
      shell: cmd
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: clang
       AR: llvm-ar
       RANLIB: llvm-ranlib
@@ -603,6 +614,7 @@ jobs:
    - name: Build OPENBLAS (Windows arm64)
      shell: cmd
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: clang
       AR: llvm-ar
       RANLIB: llvm-ranlib
@@ -654,11 +666,13 @@ jobs:
         mingw-w64-cross-mingw64-binutils
         make
         git
+        zip
 
    - name: Build OPENBLAS (Windows MSYS2 x64 clang)
     # Run your build commands within the MSYS2 shell
      shell: msys2 {0}
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: x86_64-w64-mingw32-clang
       CXX: x86_64-w64-mingw32-clang++
       HOSTCC: x86_64-w64-mingw32-clang
@@ -701,11 +715,13 @@ jobs:
         mingw-w64-cross-mingw64-binutils
         make
         git
+        zip
 
    - name: Build OPENBLAS (Windows MSYS2 x64)
     # Run your build commands within the MSYS2 shell
      shell: msys2 {0}
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: x86_64-w64-mingw32-gcc
       CXX: x86_64-w64-mingw32-g++
       HOSTCC: x86_64-w64-mingw32-gcc
@@ -748,11 +764,13 @@ jobs:
         mingw-w64-cross-mingw32-binutils
         make
         git
+        zip
 
    - name: Build OPENBLAS (Windows MSYS2 x86)
     # Run your build commands within the MSYS2 shell
      shell: msys2 {0}
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: i686-w64-mingw32-gcc
       CXX: i686-w64-mingw32-g++
       HOSTCC: i686-w64-mingw32-gcc
@@ -794,11 +812,13 @@ jobs:
         mingw-w64-cross-mingwarm64-binutils
         make
         git
+        zip
 
    - name: Build OPENBLAS (Windows MSYS2 arm64)
     # Run your build commands within the MSYS2 shell
      shell: msys2 {0}
      env:
+      LAPACK-TEST: ${{ env.LAPACK-TEST }}
       CC: aarch64-w64-mingw32-clang
       CXX: aarch64-w64-mingw32-clang++
       HOSTCC: aarch64-w64-mingw32-clang
