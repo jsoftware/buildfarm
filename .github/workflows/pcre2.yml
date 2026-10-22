@@ -14,9 +14,20 @@ on:
 
 jobs:
 
+# to run all jobs, enable all
+# for selected jobs, disable all and disable the selected needs
+
+ all:
+  if: false
+  #if: true
+  runs-on: ubuntu-latest
+  steps:
+    - run: echo "Runall jobs"
+
 # linux ----------------------------------------------------------------
  jpcre2linux:
   name: JPCRE2 (Linux)
+  needs: all
   runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
@@ -53,6 +64,7 @@ jobs:
 # macOS ----------------------------------------------------------------
  jpcre2macos:
   name: JPCRE2 (macOS)
+  needs: all
   runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
@@ -90,6 +102,7 @@ jobs:
 # macOS arm64 ----------------------------------------------------------
  jpcre2macosarm:
   name: JPCRE2 (macOS arm64)
+  needs: all
   runs-on: macos-15
   steps:
    - name: Checkout Git repository
@@ -127,6 +140,7 @@ jobs:
 # rpi64arm -------------------------------------------------------------
  jpcre2rpi64arm:
   name: JPCRE2 (Linux arm64)
+  needs: all
   runs-on: ubuntu-22.04-arm
   steps:
    - name: Checkout Git repository
@@ -161,6 +175,7 @@ jobs:
 # rpi32arm -------------------------------------------------------------
  jpcre2rpi32arm:
   name: JPCRE2 (Linux arm32)
+  needs: all
   runs-on: ubuntu-22.04-arm
   steps:
    - name: Checkout Git repository
@@ -195,6 +210,7 @@ jobs:
 # rpi64 ----------------------------------------------------------------
  jpcre2rpi64:
   name: JPCRE2 (Raspberry)
+  needs: all
   if: ${{ false }}
   runs-on: ubuntu-22.04
   steps:
@@ -239,6 +255,7 @@ jobs:
 # rpi32 ----------------------------------------------------------------
  jpcre2rpi32:
   name: JPCRE2 (Raspberry32)
+  needs: all
   if: ${{ false }}
   runs-on: ubuntu-22.04
   steps:
@@ -285,6 +302,7 @@ jobs:
 # openbsd --------------------------------------------------------------
  jpcre2openbsd:
   name: JPCRE2 (OpenBSD vmactions)
+  needs: all
   if: ${{ false }}
   runs-on: macos-15-intel
   steps:
@@ -337,6 +355,7 @@ jobs:
 # openbsd --------------------------------------------------------------
  jpcre2openbsd2:
   name: JPCRE2 (OpenBSD cross-platform-actions)
+  needs: all
   runs-on: macos-15-intel
   steps:
    - name: Checkout Git repository
@@ -389,6 +408,7 @@ jobs:
 # openbsd arm64 --------------------------------------------------------
  jpcre2openbsdarm64:
   name: JPCRE2 (OpenBSD arm64)
+  needs: all
   runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
@@ -441,6 +461,7 @@ jobs:
 # freebsd --------------------------------------------------------------
  jpcre2freebsd:
   name: JPCRE2 (FreeBSD vmactions)
+  needs: all
   if: ${{ false }}
   runs-on: macos-15-intel
   steps:
@@ -490,6 +511,7 @@ jobs:
 # freebsd --------------------------------------------------------------
  jpcre2freebsd2:
   name: JPCRE2 (FreeBSD cross-platform-actions)
+  needs: all
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
@@ -540,6 +562,7 @@ jobs:
 # freebsdarm64  --------------------------------------------------------
  jpcre2freebsdarm64:
   name: JPCRE2 (FreeBSD arm64)
+  needs: all
   runs-on: ubuntu-latest
   steps:
    - name: Checkout Git repository
@@ -590,6 +613,7 @@ jobs:
 # android --------------------------------------------------------------
  jpcre2android:
   name: JPCRE2 (android)
+  needs: all
   if: ${{ false }}
   runs-on: macos-15-intel
   steps:
@@ -624,6 +648,7 @@ jobs:
 # wasm -----------------------------------------------------------------
  jpcre2wasm:
   name: JPCRE2 (wasm)
+  needs: all
   runs-on: ubuntu-22.04
   steps:
    - name: Checkout Git repository
@@ -653,6 +678,7 @@ jobs:
 # windows x64 ----------------------------------------------------------
  jpcre2winx64:
   name: JPCRE2 (Windows x64)
+  needs: all
   if: ${{ false }}
   runs-on: windows-2022
   steps:
@@ -687,6 +713,7 @@ jobs:
 # windows arm64 --------------------------------------------------------------
  jpcre2winarm64:
   name: JPCRE2 (Windows arm64)
+  needs: all
   if: ${{ false }}
   runs-on: windows-2022
   steps:

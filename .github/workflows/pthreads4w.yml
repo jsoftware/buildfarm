@@ -14,9 +14,20 @@ on:
 
 jobs:
 
+# to run all jobs, enable all
+# for selected jobs, disable all and disable the selected needs
+
+ all:
+  if: false
+  #if: true
+  runs-on: ubuntu-latest
+  steps:
+    - run: echo "Runall jobs"
+
 # windows x64 ----------------------------------------------------------
  jpthreads4wx64:
   name: JPTHREADS4W (Windows x64)
+  needs: all
   runs-on: windows-2022
   steps:
    - name: Checkout Git repository
@@ -48,6 +59,7 @@ jobs:
 # windows x86 ----------------------------------------------------------
  jpthreads4wx86:
   name: JPTHREADS4W (Windows x86)
+  needs: all
   runs-on: windows-2022
   steps:
    - name: Checkout Git repository
@@ -79,6 +91,7 @@ jobs:
 # windows arm64 --------------------------------------------------------
  jpthreads4warm64:
   name: JPTHREADS4W (Windows arm64)
+  needs: all
   runs-on: windows-2022
   steps:
    - name: Checkout Git repository

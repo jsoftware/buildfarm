@@ -668,6 +668,9 @@ jobs:
       __MSYS__: 1
       _SSE4_2: 1
      run: |
+      which $CC
+      which $AR
+      which $RANLIB
       script/openblas-make.sh windows x86_64 || exit 1
 
    - name: Release OPENBLAS (Windows MSYS2 x64 clang)
@@ -716,6 +719,9 @@ jobs:
       __MSYS__: 1
       _SSE4_2: 1
      run: |
+      which $CC
+      which $AR
+      which $RANLIB
       script/openblas-make.sh windows x86_64 || exit 1
 
    - name: Release OPENBLAS (Windows MSYS2 x64)
@@ -762,6 +768,9 @@ jobs:
       WINDRES: windres
       __MSYS__: 1
      run: |
+      which $CC
+      which $AR
+      which $RANLIB
       script/openblas-make.sh windows i386 || exit 1
 
    - name: Release OPENBLAS (Windows MSYS2 x86)
@@ -808,6 +817,9 @@ jobs:
       WINDRES: windres
       __MSYS__: 1
      run: |
+      which $CC
+      which $AR
+      which $RANLIB
       script/openblas-make.sh windows arm64 || exit 1
 
    - name: Release OPENBLAS (Windows MSYS2 arm64)
