@@ -15,8 +15,8 @@ on:
 env:
  RELEASE: ${{ true }}
  WEBHOOK: ${{ false }}
-# LAPACKTEST: test ctest
- LAPACKTEST:
+ LAPACKTEST: test ctest
+# LAPACKTEST:
 
 jobs:
 
