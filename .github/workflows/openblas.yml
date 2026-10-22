@@ -662,15 +662,12 @@ jobs:
       CC: x86_64-w64-mingw32-clang
       CXX: x86_64-w64-mingw32-clang++
       HOSTCC: x86_64-w64-mingw32-clang
-      AR: x86_64-w64-mingw32-ar
-      RANLIB: x86_64-w64-mingw32-ranlib
+      AR: llvm-ar
+      RANLIB: llvm-ranlib
       WINDRES: windres
       __MSYS__: 1
       _SSE4_2: 1
      run: |
-      which $CC
-      ls /clang64/bin/
-      which $RANLIB
       script/openblas-make.sh windows x86_64 || exit 1
 
    - name: Release OPENBLAS (Windows MSYS2 x64 clang)
@@ -713,14 +710,12 @@ jobs:
       CC: x86_64-w64-mingw32-gcc
       CXX: x86_64-w64-mingw32-g++
       HOSTCC: x86_64-w64-mingw32-gcc
-      AR: x86_64-w64-mingw32-ar
-      RANLIB: x86_64-w64-mingw32-ranlib
+      AR: llvm-ar
+      RANLIB: llvm-ranlib
       WINDRES: windres
       __MSYS__: 1
       _SSE4_2: 1
      run: |
-      which $CC
-      which $RANLIB
       script/openblas-make.sh windows x86_64 || exit 1
 
    - name: Release OPENBLAS (Windows MSYS2 x64)
@@ -762,14 +757,11 @@ jobs:
       CC: i686-w64-mingw32-gcc
       CXX: i686-w64-mingw32-g++
       HOSTCC: i686-w64-mingw32-gcc
-      AR: i686-w64-mingw32-ar
-      RANLIB: i686-w64-mingw32-ranlib
+      AR: llvm-ar
+      RANLIB: llvm-ranlib
       WINDRES: windres
       __MSYS__: 1
      run: |
-      which $CC
-      ls /mingw32/bin/
-      which $RANLIB
       script/openblas-make.sh windows i386 || exit 1
 
    - name: Release OPENBLAS (Windows MSYS2 x86)
@@ -811,14 +803,11 @@ jobs:
       CC: aarch64-w64-mingw32-clang
       CXX: aarch64-w64-mingw32-clang++
       HOSTCC: aarch64-w64-mingw32-clang
-      AR: aarch64-w64-mingw32-ar
-      RANLIB: aarch64-w64-mingw32-ranlib
+      AR: llvm-ar
+      RANLIB: llvm-ranlib
       WINDRES: windres
       __MSYS__: 1
      run: |
-      which $CC
-      ls /clangarm64/bin/
-      which $RANLIB
       script/openblas-make.sh windows arm64 || exit 1
 
    - name: Release OPENBLAS (Windows MSYS2 arm64)
