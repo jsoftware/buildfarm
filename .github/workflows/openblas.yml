@@ -234,11 +234,6 @@ jobs:
        export MAKETARGET=${{ env.MAKETARGET }}
        export CC=clang
        script/openblas-make.sh raspberry armv6l || exit 1
-       touch jobdone
-
-   - name: Check Status (Raspberry32)
-     run: |
-      test -f jobdone || exit 1
 
    - name: Release OPENBLAS (Raspberry32)
      if: ${{ env.RELEASE == 'true' }}
@@ -269,18 +264,12 @@ jobs:
       shell: bash
 
       run: |
-       rm -f jobdone
        sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake git
        export MAKETARGET=${{ env.MAKETARGET }}
        export CC=clang
        script/openblas-make.sh openbsd || exit 1
-       touch jobdone
-
-   - name: Check Status (OpenBSD)
-     run: |
-      test -f jobdone || exit 1
 
    - name: Release OPENBLAS (OpenBSD)
      if: ${{ env.RELEASE == 'true' }}
@@ -312,20 +301,12 @@ jobs:
       shell: bash
 
       run: |
-       rm -f jobdone
        sudo pkg_add -u
        sudo rdate time.cloudflare.com || true
        sudo pkg_add curl wget zip gmake git
        export MAKETARGET=${{ env.MAKETARGET }}
        export CC=clang
        script/openblas-make.sh openbsd arm64 || exit 1
-       ls -l j64
-       zip -r openblas-obsdarm64.zip j64
-       touch jobdone
-
-   - name: Check Status (OpenBSD arm64)
-     run: |
-      test -f jobdone || exit 1
 
    - name: Release OPENBLAS (OpenBSD arm64)
      if: ${{ env.RELEASE == 'true' }}
@@ -356,7 +337,6 @@ jobs:
       shell: bash
 
       run: |
-       rm -f jobdone
        export IGNORE_OSVERSION=yes
        sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
@@ -364,11 +344,6 @@ jobs:
        export MAKETARGET=${{ env.MAKETARGET }}
        export CC=clang
        script/openblas-make.sh freebsd || exit 1
-       touch jobdone
-
-   - name: Check Status (FreeBSD)
-     run: |
-      test -f jobdone || exit 1
 
    - name: Release OPENBLAS (FreeBSD)
      if: ${{ env.RELEASE == 'true' }}
@@ -400,7 +375,6 @@ jobs:
       shell: bash
 
       run: |
-       rm -f jobdone
        export IGNORE_OSVERSION=yes
        sudo pkg upgrade -y
        sudo rdate time.cloudflare.com || true
@@ -408,11 +382,6 @@ jobs:
        export MAKETARGET=${{ env.MAKETARGET }}
        export CC=clang
        script/openblas-make.sh freebsd arm64 || exit 1
-       touch jobdone
-
-   - name: Check Status (FreeBSD arm64)
-     run: |
-      test -f jobdone || exit 1
 
    - name: Release OPENBLAS (FreeBSD arm64)
      if: ${{ env.RELEASE == 'true' }}
