@@ -1,12 +1,12 @@
 
 #if defined(__OpenBSD__) || defined(__FreeBSD__)
-double cabs( openblas_complex_double z )
+double cabs( double complex z )
 {
-    return sqrt( openblas_complex_double_real(z)*openblas_complex_double_real(z) + openblas_complex_double_imag(z)*openblas_complex_double_imag(z) );
+    return sqrt( creal(z)*creal(z) + cimag(z)*cimag(z) );
 }
  
-float cabsf( openblas_complex_float z )
+float cabsf( float complex z )
 {
-    return sqrtf( openblas_complex_float_real(z)*openblas_complex_float_real(z) + openblas_complex_float_imag(z)*openblas_complex_float_imag(z) );
+    return sqrtf( crealf(z)*crealf(z) + cimagf(z)*cimagf(z) );
 }
 #endif 
