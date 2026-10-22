@@ -15,8 +15,8 @@ on:
 env:
  RELEASE: ${{ true }}
  WEBHOOK: ${{ false }}
- LAPACKTEST: test ctest
-# LAPACKTEST:
+# MAKETARGET: libs netlib shared
+ MAKETARGET: all
 
 jobs:
 
@@ -66,7 +66,7 @@ jobs:
 
    - name: Build OPENBLAS (Linux)
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -100,7 +100,7 @@ jobs:
 
    - name: Build OPENBLAS (macOS)
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -134,7 +134,7 @@ jobs:
 
    - name: Build OPENBLAS (macOS arm64)
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -164,7 +164,7 @@ jobs:
 
    - name: Build OPENBLAS (Linux arm64)
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -194,7 +194,7 @@ jobs:
 
    - name: Build OPENBLAS (Linux arm32)
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: arm-linux-gnueabihf-gcc
       HOSTCC: clang
      run: |
@@ -436,7 +436,7 @@ jobs:
 
    - name: Build OPENBLAS (android)
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: clang
       HOSTCC: clang
      run: |
@@ -470,7 +470,7 @@ jobs:
 
    - name: Build OPENBLAS (wasm)
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: emcc
       AR: emar
       RANLIB: emranlib
@@ -506,12 +506,11 @@ jobs:
    - name: Build OPENBLAS (Windows)
      shell: cmd
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: clang
       AR: llvm-ar
       RANLIB: llvm-ranlib
       HOSTCC: clang
-      _SSE4_2: 1
      run: |
       script\openblas-make-x64.cmd x64
 
@@ -543,7 +542,7 @@ jobs:
    - name: Build OPENBLAS (Windows 32)
      shell: cmd
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: clang
       AR: llvm-ar
       RANLIB: llvm-ranlib
@@ -579,7 +578,7 @@ jobs:
    - name: Build OPENBLAS (Windows arm64 old)
      shell: cmd
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: clang
       AR: llvm-ar
       RANLIB: llvm-ranlib
@@ -615,7 +614,7 @@ jobs:
    - name: Build OPENBLAS (Windows arm64)
      shell: cmd
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: clang
       AR: llvm-ar
       RANLIB: llvm-ranlib
@@ -663,8 +662,6 @@ jobs:
       # Install necessary packages (e.g., your build tools, gcc, make)
       install: >-
         mingw-w64-clang-x86_64-clang
-        mingw-w64-clang-x86_64-lldb
-        mingw-w64-cross-mingw64-binutils
         make
         git
         zip
@@ -673,7 +670,7 @@ jobs:
     # Run your build commands within the MSYS2 shell
      shell: msys2 {0}
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: x86_64-w64-mingw32-clang
       CXX: x86_64-w64-mingw32-clang++
       HOSTCC: x86_64-w64-mingw32-clang
@@ -681,9 +678,9 @@ jobs:
       RANLIB: llvm-ranlib
       WINDRES: windres
       __MSYS__: 1
-      _SSE4_2: 1
      run: |
       script/openblas-make.sh windows x86_64 || exit 1
+      mv openblas-w64mw.zip openblas-w64mwc.zip
 
    - name: Release OPENBLAS (Windows MSYS2 x64 clang)
      if: ${{ env.RELEASE == 'true' }}
@@ -712,8 +709,6 @@ jobs:
       # Install necessary packages (e.g., your build tools, gcc, make)
       install: >-
         mingw-w64-x86_64-gcc
-        mingw-w64-x86_64-gdb
-        mingw-w64-cross-mingw64-binutils
         make
         git
         zip
@@ -722,7 +717,7 @@ jobs:
     # Run your build commands within the MSYS2 shell
      shell: msys2 {0}
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: x86_64-w64-mingw32-gcc
       CXX: x86_64-w64-mingw32-g++
       HOSTCC: x86_64-w64-mingw32-gcc
@@ -730,7 +725,6 @@ jobs:
       RANLIB: gcc-ranlib
       WINDRES: windres
       __MSYS__: 1
-      _SSE4_2: 1
      run: |
       script/openblas-make.sh windows x86_64 || exit 1
 
@@ -761,8 +755,6 @@ jobs:
       # Install necessary packages (e.g., your build tools, gcc, make)
       install: >-
         mingw-w64-i686-gcc
-        mingw-w64-i686-gdb
-        mingw-w64-cross-mingw32-binutils
         make
         git
         zip
@@ -771,7 +763,7 @@ jobs:
     # Run your build commands within the MSYS2 shell
      shell: msys2 {0}
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: i686-w64-mingw32-gcc
       CXX: i686-w64-mingw32-g++
       HOSTCC: i686-w64-mingw32-gcc
@@ -809,8 +801,6 @@ jobs:
       # Install necessary packages (e.g., your build tools, gcc, make)
       install: >-
         mingw-w64-clang-aarch64-clang
-        mingw-w64-clang-aarch64-lldb
-        mingw-w64-cross-mingwarm64-binutils
         make
         git
         zip
@@ -819,7 +809,7 @@ jobs:
     # Run your build commands within the MSYS2 shell
      shell: msys2 {0}
      env:
-      LAPACKTEST: ${{ env.LAPACKTEST }}
+      MAKETARGET: ${{ env.MAKETARGET }}
       CC: aarch64-w64-mingw32-clang
       CXX: aarch64-w64-mingw32-clang++
       HOSTCC: aarch64-w64-mingw32-clang
