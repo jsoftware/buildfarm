@@ -15,8 +15,8 @@ on:
 env:
  RELEASE: ${{ true }}
  WEBHOOK: ${{ false }}
-# MAKETARGET: libs netlib shared
- MAKETARGET: all
+ MAKETARGET: libs netlib shared
+# MAKETARGET: all
 
 jobs:
 
@@ -787,7 +787,7 @@ jobs:
 # windows msys2 arm64 --------------------------------------------------
  obwin-msys2-arm64:
   name: OPENBLAS (Windows MSYS2 arm64)
-  needs: all
+#  needs: all
   runs-on: windows-11-arm
   steps:
    - name: Checkout Git repository

@@ -234,7 +234,7 @@ elif [ "$1" = "windows" ]; then
  else
   arm64
   cd libs
-  zip ../../openblas-warm64mv.zip *
+  zip ../../openblas-warm64mw.zip *
  fi
  cd -
 elif [ "$1" = "wasm" ]; then
