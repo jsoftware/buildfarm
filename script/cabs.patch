@@ -2,12 +2,14 @@
 #if defined(__OpenBSD__) || defined(__FreeBSD__)
 #include <math.h>
 #include <complex.h>
-double _cabs( double complex z )
+#undef cabs
+#undef cabsf
+double cabs( double complex z )
 {
     return sqrt( creal(z)*creal(z) + cimag(z)*cimag(z) );
 }
  
-float _cabsf( float complex z )
+float cabsf( float complex z )
 {
     return sqrtf( crealf(z)*crealf(z) + cimagf(z)*cimagf(z) );
 }
