@@ -245,7 +245,6 @@ jobs:
 # openbsd --------------------------------------------------------------
  obopenbsd:
   name: OPENBLAS (OpenBSD cross-platform-actions)
-  if: ${{ false }}
   needs: all
   runs-on: ubuntu-latest
   steps:
@@ -331,7 +330,6 @@ jobs:
 # freebsd --------------------------------------------------------------
  obfreebsd:
   name: OPENBLAS (FreeBSD cross-platform-actions)
-  if: ${{ false }}
   needs: all
   runs-on: ubuntu-latest
   steps:
@@ -638,7 +636,6 @@ jobs:
 # windows msys2 x64 clang ----------------------------------------------
  obwin-msys2-x64-clang:
   name: OPENBLAS (Windows MSYS2 x64 clang)
-  if: ${{ false }}
   needs: all
   runs-on: windows-2022
   steps:
@@ -734,7 +731,6 @@ jobs:
 # windows msys2 x86 ----------------------------------------------------
  obwin-msys2-x86:
   name: OPENBLAS (Windows MSYS2 x86)
-  if: ${{ false }}
   needs: all
   runs-on: windows-2022
   steps:
@@ -781,7 +777,6 @@ jobs:
 # windows msys2 arm64 --------------------------------------------------
  obwin-msys2-arm64:
   name: OPENBLAS (Windows MSYS2 arm64)
-  if: ${{ false }}
   needs: all
   runs-on: windows-11-arm
   steps:
