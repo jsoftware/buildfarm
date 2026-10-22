@@ -10,6 +10,7 @@ CC=${CC-clang}
 export CC
 
 git clone --depth=1 https://github.com/OpenMathLib/OpenBLAS.git || exit 1
+cat script/cabs.patch >> OpenBLAS/lapack-netlib/SRC/zupmtr.c
 
 x86() {
 $make clean
