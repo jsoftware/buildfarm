@@ -683,7 +683,6 @@ jobs:
 # windows msys2 x64 ----------------------------------------------------
  obwin-msys2-x64:
   name: OPENBLAS (Windows MSYS2 x64)
-  if: ${{ false }}
   needs: all
   runs-on: windows-2022
   steps:
@@ -710,8 +709,8 @@ jobs:
       CC: x86_64-w64-mingw32-gcc
       CXX: x86_64-w64-mingw32-g++
       HOSTCC: x86_64-w64-mingw32-gcc
-      AR: llvm-ar
-      RANLIB: llvm-ranlib
+      AR: gcc-ar
+      RANLIB: gcc-ranlib
       WINDRES: windres
       __MSYS__: 1
       _SSE4_2: 1
@@ -757,8 +756,8 @@ jobs:
       CC: i686-w64-mingw32-gcc
       CXX: i686-w64-mingw32-g++
       HOSTCC: i686-w64-mingw32-gcc
-      AR: llvm-ar
-      RANLIB: llvm-ranlib
+      AR: gcc-ar
+      RANLIB: gcc-ranlib
       WINDRES: windres
       __MSYS__: 1
      run: |
